@@ -1,0 +1,53 @@
+---
+title: "Data Analysis Replication"
+author: "Prabhani Athukorala"
+format: html
+editor: visual
+---
+
+# Introduction
+
+```{r}
+1 + 1
+```
+
+# Original Study Overview
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+## 1) Goal of the original paper
+
+## 2) Data Used in the Original Study
+
+## 3) Analyses Conducted in the Original Study
+
+## 4) Analyses Chosen for Replication
+
+# Data and File Organization
+
+## 1) Repository Structure
+
+## 2) Data Files
+
+## 3) Images from the Original Paper
+
+# Variable Dictionary
+
+# Data Import and Initial Inspection
+
+# Replication Analysis 1: Descriptive Statistics
+
+# Replication Analysis 2: Inferential Analysis
+
+# Replication Analysis 3: Visualization
+
+# Replication Analysis 4: Second Inferential Analysis
+
+# Comparison to the Original Paper
+
+# Discussion and Reflection
+
+# References
