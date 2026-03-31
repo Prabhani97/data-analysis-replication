@@ -5,49 +5,81 @@ format: html
 editor: visual
 ---
 
-# Introduction
+## Introduction
 
-```{r}
-1 + 1
-```
+This report presents a replication of selected data analyses from the study "**Auditory and cognitive contributions to recognition of degraded speech in noise: Individual differences among older adults"** by **Daniel Fogerty and Judy R. Dubno.**
 
-# Original Study Overview
+This study belongs to the field of auditory neuroscience and speech perception.
 
-```{r}
-#| echo: false
-2 * 2
-```
+The goal of this replication is to reproduce a subset of key statistical findings in the above study using R and to evaluate how closely the replicated results align with those reported in the original study.
 
-## 1) Goal of the original paper
+## Original Study Overview
 
-## 2) Data Used in the Original Study
+#### 1) Goal of the study
 
-## 3) Analyses Conducted in the Original Study
+-   This study looked at how older adults' auditory and cognitive capacities affect their ability to recognize speech in noisy environments.
 
-## 4) Analyses Chosen for Replication
+-   The study specifically examined individual differences in speech recognition skills between older people with hearing impairment (OHI) and those with. normal hearing (ONH).
 
-# Data and File Organization
+-   To understand degraded speech under difficult listening situations, the authors attempted to identify which underlying skills such as hearing sensitivity, working memory, vocabulary knowledge, and speech "glimpsing" ability are most crucial.
 
-## 1) Repository Structure
+#### 2) Data used in the original study
 
-## 2) Data Files
+Participants: 40 adults (20 with normal hearing (ONH) and 20 with hearing impairment (OHI))
 
-## 3) Images from the Original Paper
+Predictor variables:
 
-# Variable Dictionary
+| **Auditory measures** | Auditory and Cognitive measures |
+|----|----|
+| Hearing thresholds | Tasks assessing working memory, episodic memory, processing speed, and executive function |
+| Speech related processing abilities (modulation detection and speech glimpsing) | Cognitive linguistic measures such as vocabulary knowledge and linguistic closure |
 
-# Data Import and Initial Inspection
+Data sets: Three experimental data sets with three degraded speech conditions
 
-# Replication Analysis 1: Descriptive Statistics
+1.  Spectrally reduced speech
 
-# Replication Analysis 2: Inferential Analysis
+2.  Speech in modulated noise
 
-# Replication Analysis 3: Visualization
+3.  A combination of both
 
-# Replication Analysis 4: Second Inferential Analysis
+For each data set above, speech recognition thresholds (SRTs) were calculated at 20%, 50%, and 80% recognition levels. The method used to do that was psychometric functions based on the extended Short-Time Objective Intelligibility (eSTOI). ( This is a mathematical mapping model that relate the objective eSTOI score (a scalar between 0 and 1) to subjective human speech intelligibility scores).
 
-# Comparison to the Original Paper
+#### 3) Analyses conducted in the original study
 
-# Discussion and Reflection
+Like I mentioned above, the original study looked at the association between predictor variables and speech recognition performance. the statistical methods they used are:
 
-# References
+1\) A Principal components analysis (PCA) to generate composite predictor variables and minimize the dimensionality of auditory and cognitive assessments. (The data set after PCA is available for use ready)
+
+2\) A correlational analyses to see which predictors were linked to speech recognition results. A subset of important predictors was chosen for additional examination based on these findings.
+
+3\) A multiple regression dominance analysis to get certain the relative significance of each predictor in explaining variance in speech recognition performance.
+
+-   This analysis was carried out independently for the ONH and OHI groups, as well as for various datasets and task difficulty levels (SRT20, SRT50, and SRT80).
+
+#### 4) Analyses Chosen for Replication
+
+I choose to replicate the following analyses from above.
+
+-   Descriptive statistics - to summarize key variables for each group (ONH and OHI), including demographic variables and selected auditory and cognitive predictors.
+
+-   Inferential analysis - to examine group differences between ONH and OHI participants on selected predictor variables using independent samples t-tests.
+
+-   A visualization - to explore relationships between predictor variables and speech recognition outcomes, using a correlation based plot.
+
+-   A second inferential analysis - using multiple linear regression to examine how selected auditory and cognitive predictors contribute to speech recognition performance (SRT50).
+
+## Data Import and Initial Inspection / Visualization of data
+
+## Replication Analysis 1: Descriptive Statistics
+
+## Replication Analysis 2: Inferential Analysis
+
+## Replication Analysis 3: Visualization
+
+## Replication Analysis 4: Second Inferential Analysis
+
+## Comparison to the Original Paper
+
+## Discussion and Reflection
+
+## References
