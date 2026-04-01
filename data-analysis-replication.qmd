@@ -30,11 +30,13 @@ Participants: 40 adults (20 with normal hearing (ONH) and 20 with hearing impair
 Predictor variables:
 
 | **Auditory measures** | Auditory and Cognitive measures |
-|----|----|
+|------------------------------------|------------------------------------|
 | Hearing thresholds | Tasks assessing working memory, episodic memory, processing speed, and executive function |
 | Speech related processing abilities (modulation detection and speech glimpsing) | Cognitive linguistic measures such as vocabulary knowledge and linguistic closure |
 
-Data sets: Three experimental data sets with three degraded speech conditions
+Dataset
+
+Three experimental degraded speech conditions were considered.
 
 1.  Spectrally reduced speech
 
@@ -42,7 +44,9 @@ Data sets: Three experimental data sets with three degraded speech conditions
 
 3.  A combination of both
 
-For each data set above, speech recognition thresholds (SRTs) were calculated at 20%, 50%, and 80% recognition levels. The method used to do that was psychometric functions based on the extended Short-Time Objective Intelligibility (eSTOI). ( This is a mathematical mapping model that relate the objective eSTOI score (a scalar between 0 and 1) to subjective human speech intelligibility scores).
+For each data set above, speech recognition thresholds (SRTs) were calculated at 20%, 50%, and 80% recognition levels. The three datasets described in the original study do not refer to separate data files, but rather to three different experimental speech recognition conditions. These are represented in the dataset by separate outcome variables (D1, D2, D3), each corresponding to a different type of degraded speech condition.
+
+The method used to do that was psychometric functions based on the extended Short-Time Objective Intelligibility (eSTOI). ( This is a mathematical mapping model that relate the objective eSTOI score (a scalar between 0 and 1) to subjective human speech intelligibility scores).
 
 #### 3) Analyses conducted in the original study
 
@@ -60,13 +64,15 @@ Like I mentioned above, the original study looked at the association between pre
 
 I choose to replicate the following analyses from above except for the initial exploratory data analysis i am going to do.
 
--   Descriptive statistics - to summarize key variables for each group (ONH and OHI), including demographic variables and selected auditory and cognitive predictors.
+1.  First, descriptive statistics are used to summarize participant characteristics and key predictor variables for the ONH and OHI groups. This includes variables such as age, hearing sensitivity, working memory, vocabulary, and speech glimpsing ability.
 
--   Inferential analysis - to examine group differences between ONH and OHI participants on selected predictor variables using independent samples t-tests.
+2.  Second, a descriptive visualization is created using violin plots to compare the distributions of key predictor variables between groups, similar to Fig. 3 in the original study.
 
--   A visualization - to explore relationships between predictor variables and speech recognition outcomes, using a correlation based plot.
+3.  Third, an inferential analysis is conducted to examine the relationship between predictor variables and speech recognition outcomes, providing a simplified approximation of the dominance analysis used in the original study.I will do a visualzation of this analysis too.
 
--   A second inferential analysis - using multiple linear regression to examine how selected auditory and cognitive predictors contribute to speech recognition performance (SRT50).
+4.  Finally, a correlation analysis is performed to explore relationships between auditory and cognitive predictors and speech recognition performance, and to assess whether similar patterns to those reported in the original study are observed.
+
+\@\@\@\@\@\@\@\@\@\@\@
 
 ## Variables used in the study
 
@@ -177,13 +183,149 @@ The dataset includes principal component (PCA) scores for auditory and cognitive
 
 ## Replication Analysis 1: Descriptive Statistics
 
-## Replication Analysis 2: Inferential Analysis
+### Descriptive Analysis: Participant characteristics
 
-## Replication Analysis 3: Visualization
+The first descriptive analysis in the original paper focuses on describing the demographic and baseline characteristics of the participants. This includes summarizing age, gender distribution, hearing thresholds, and key predictor variables for the two groups: older normal-hearing (ONH) and older hearing-impaired (OHI) listeners.
 
-## Replication Analysis 4: Second Inferential Analysis
+The goal of this analysis is to replicate the general patterns reported in the original study, such as differences in hearing thresholds between groups and similarities in cognitive abilities.
 
-## Comparison to the Original Paper
+Now I am loading the correct sheet where the data after doing the PCA.
+
+```{r}
+df <- read_excel(
+  "data/journal.pone.0331487.s002.xlsx",
+  sheet = "Predictors&Outcomes", ,skip = 1
+)
+df$HearGroup <- as.factor(df$HearGroup)
+
+```
+
+Summarizing age and sample size
+
+```{r}
+df %>%
+  group_by(HearGroup) %>%
+  summarise(
+    n = n(),
+    Age_mean = mean(Age),
+    Age_sd = sd(Age),
+    Age_min = min(Age),
+    Age_max = max(Age)
+  )
+```
+
+Gender distribution
+
+```{r}
+table(df$HearGroup, df$Sex)
+```
+
+Key predictor variables : Audiogram_PCA ; Glimpsing ; WorkingMemory_PCA; Vocabulary. The authors have not generated any kind of summarization or any descriptive statistics out of these variables. But, they have analyzed a frequecny by frequency mean audiogram from raw threshold columns like 250Hz, 500Hz, 1000Hz and so on from the "AuditoryVariables" sheet.
+
+So I am trying to replicate that.
+
+```{r}
+library(readxl)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# Keep only audiogram frequencies used in the figure
+aud_long <- auditory_variables %>%
+  select(HearGroup, `250 Hz`, `500 Hz`, `1000 Hz`, `2000 Hz`, `4000 Hz`, `8000 Hz`) %>%
+  pivot_longer(
+    cols = `250 Hz`:`8000 Hz`,
+    names_to = "Frequency",
+    values_to = "Threshold"
+  ) %>%
+  mutate(
+    Frequency = factor(
+      Frequency,
+      levels = c("250 Hz", "500 Hz", "1000 Hz", "2000 Hz", "4000 Hz", "8000 Hz")
+    )
+  )
+
+# Group means and SDs
+aud_summary <- aud_long %>%
+  group_by(HearGroup, Frequency) %>%
+  summarise(
+    mean_threshold = mean(Threshold, na.rm = TRUE),
+    sd_threshold = sd(Threshold, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+aud_summary
+```
+
+```{r}
+ggplot(aud_summary, aes(x = Frequency, y = mean_threshold,
+                        group = HearGroup, shape = HearGroup, linetype = HearGroup)) +
+  geom_line(color = "black") +
+  geom_point(color = "black", size = 2.5) +
+  geom_errorbar(
+    aes(ymin = mean_threshold - sd_threshold, ymax = mean_threshold + sd_threshold),
+    width = 0.1,
+    color = "black"
+  ) +
+  scale_y_reverse() +
+  labs(
+    title = "Mean Audiograms for the Two Listener Groups",
+    x = "Frequency (Hz)",
+    y = "Threshold (dB HL)"
+  ) +
+  theme_classic()
+```
+
+```{r}
+df %>%
+  group_by(HearGroup) %>%
+  summarise(
+    Audiogram_mean = mean(Audiogram_PCA),
+    Audiogram_sd = sd(Audiogram_PCA),
+    
+    Glimpsing_mean = mean(Glimpsing),
+    Glimpsing_sd = sd(Glimpsing),
+    
+    WM_mean = mean(WorkingMemory_PCA),
+    WM_sd = sd(WorkingMemory_PCA),
+    
+    Vocabulary_mean = mean(Vocabulary),
+    Vocabulary_sd = sd(Vocabulary)
+  )
+```
+
+### Replication Analysis 2: Descriptive Visualization
+
+To complement the descriptive statistics, violin plots will be created to compare the distributions of key predictor variables between ONH and OHI groups. The selected variables include:
+
+-   Audiogram PCA (hearing sensitivity)
+-   Speech glimpsing ability
+-   Working memory PCA
+-   Vocabulary knowledge
+
+These visualizations are inspired by Fig. 3 in the original study and provide a clear representation of group differences, including distribution shape, variability, and central tendency.
+
+### Replication Analysis 3: Inferential Analysis: Predictor Importance
+
+The second analysis aims to examine the relative contribution of predictor variables to speech recognition performance. The original study used dominance analysis to quantify the proportion of variance explained by each predictor across datasets and performance levels.
+
+In this replication, a simplified inferential approach will be used to approximate these relationships by examining how key predictors (Audiogram PCA, glimpsing, working memory, and vocabulary) relate to speech recognition outcomes. This allows for evaluation of whether similar patterns emerge, such as the stronger role of vocabulary for ONH listeners and glimpsing for OHI listeners.
+
+### Replication Analysis 4: Inferential Visualization
+
+To support interpretation of predictor importance, a visualization (e.g., a bubble chart or comparable summary plot) will be used to represent the relative contributions of different predictors. This is conceptually similar to the dominance analysis visualizations presented in the original study.
+
+### Replication Analysis 5: Second Descriptive Analysis: Correlation Analysis
+
+Finally, a correlation analysis will be conducted to examine relationships between predictor variables and speech recognition outcomes. This analysis aims to replicate patterns reported in the original study, where:
+
+-   Audiogram PCA, speech glimpsing, working memory, and vocabulary were consistently associated with speech recognition performance
+-   Audiogram PCA and glimpsing showed stronger relationships in OHI listeners
+-   Vocabulary showed stronger relationships in ONH listeners
+
+This analysis provides additional insight into how auditory and cognitive factors interact in predicting speech recognition and further supports the interpretation of the inferential analyses.
+
+## Comparison to the Original Paper - how successful were you at replicating the analyses and visualizations in the study. What problems did you encounter? Why might you have encountered those problems? What details were lacking from the original study's methods that might have hampered your ability to replicate the authors' results?\]
 
 ## Discussion and Reflection
 
