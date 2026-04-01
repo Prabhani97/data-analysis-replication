@@ -58,7 +58,7 @@ Like I mentioned above, the original study looked at the association between pre
 
 #### 4) Analyses Chosen for Replication
 
-I choose to replicate the following analyses from above.
+I choose to replicate the following analyses from above except for the initial exploratory data analysis i am going to do.
 
 -   Descriptive statistics - to summarize key variables for each group (ONH and OHI), including demographic variables and selected auditory and cognitive predictors.
 
@@ -68,7 +68,112 @@ I choose to replicate the following analyses from above.
 
 -   A second inferential analysis - using multiple linear regression to examine how selected auditory and cognitive predictors contribute to speech recognition performance (SRT50).
 
-## Data Import and Initial Inspection / Visualization of data
+## Variables used in the study
+
+## Data import and initial inspection, visualization of data
+
+The dataset I am going to use for this replication, was obtained from the supporitng information provided with the original paper.
+
+The data file contains participant level measurements auditory and cognitive predictor variables, and speech recognition outcomes.
+
+1\) I will initially inspect the structure of the dataset and the relationships among variables. What I want to show is how these datasets contain large number of variables and why they expected redundancy among them and why it was necessary to first reduce the dimensionality of the data.
+
+```{r}
+
+# Installing and loading the necessary libraries
+
+install.packages("corrplot")
+
+library(readxl)
+library(tidyverse)
+library(corrplot)
+```
+
+First I am going to load the data sheets for auditory and cognitive measures in **Table 1. Summary table of experimental measures, including domains, tasks, and variables.** <https://doi.org/10.1371/journal.pone.0331487.t001>
+
+```{r}
+auditory_variables <- read_excel("data/journal.pone.0331487.s002.xlsx",sheet = "AuditoryVariables",skip = 1) # Skipping the header above data columns because the auditory dataset contained multi-level headers
+
+cognitive_variables <- read_excel("data/journal.pone.0331487.s002.xlsx",
+                        sheet = "CognitiveVariables (z-scores)")
+```
+
+First, doing a basic exploration
+
+```{r}
+head(auditory_variables)
+glimpse(auditory_variables)
+```
+
+```{r}
+head(cognitive_variables)
+glimpse(cognitive_variables)
+```
+
+Now I am going to draw some distribution plots for the exploratory data analysis. There are no plots shown for this in the original paper. So I am going to draw.
+
+For auditory variables,
+
+```{r}
+auditory_variables_long <- auditory_variables%>%
+  pivot_longer(cols = `250 Hz`:`8000 Hz`,
+               names_to = "Frequency",
+               values_to = "Threshold")
+
+ggplot(auditory_variables_long, aes(x = Threshold)) +
+  geom_histogram(bins = 20) +
+  facet_wrap(~Frequency, scales = "free") +
+  theme_minimal() +
+  labs(title = "Distribution of Hearing Thresholds Across Frequencies")
+```
+
+Correlations between auditory variables
+
+```{r}
+auditory_variables_1 <- auditory_variables %>%
+  select(`250 Hz`:`8000 Hz`)
+
+auditory_correlations <- cor(auditory_variables_1)
+
+library(corrplot)
+corrplot(auditory_correlations, method = "color", type = "upper")
+```
+
+For cognitive variables
+
+```{r}
+cognitive_variables_long <- cognitive_variables %>%
+  pivot_longer(cols = zShortRecall:zStroop_Mismatch,
+               names_to = "Test",
+               values_to = "Score")
+
+ggplot(cognitive_variables_long, aes(x = Score)) +
+  geom_histogram(bins = 20) +
+  facet_wrap(~Test, scales = "free") +
+  theme_minimal() +
+  labs(title = "Distribution of Cognitive Test Scores")
+```
+
+Correlations between cognitive variables
+
+```{r}
+cognitive_variables_1 <- cognitive_variables %>%
+  select(zShortRecall:zStroop_Mismatch)
+
+cognitive_correlation <- cor(cognitive_variables_1)
+
+# drawing the correlation matrix
+
+corrplot(cognitive_correlation, method = "color", type = "upper")
+```
+
+The correlation matrices shows a substantial correlations among variables within both auditory and cognitive domains. In the auditory dataset, hearing thresholds across different frequencies show strong positive correlations, indicating that individuals with elevated thresholds at one frequency tend to show similar patterns across other frequencies. This suggests redundancy in the measurement of hearing sensitivity.
+
+Similarly, in the cognitive dataset, several measures show moderate to strong correlations, particularly among tasks assessing related cognitive functions such as memory and executive control. These patterns indicate that multiple variables may be capturing overlapping underlying constructs.
+
+These findings support the use of principal components analysis (PCA) in the original study, as PCA allows for the reduction of correlated variables into a smaller set of independent components representing underlying auditory and cognitive processes.
+
+The dataset includes principal component (PCA) scores for auditory and cognitive predictors, as well as speech recognition thresholds (SRTs) for multiple datasets. Because PCA variables are already provided, I am not going to recompute PCA, and instead I use these variables directly in the analyses.
 
 ## Replication Analysis 1: Descriptive Statistics
 
