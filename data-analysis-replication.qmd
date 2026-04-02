@@ -54,6 +54,8 @@ Like I mentioned above, the original study looked at the association between pre
 
 1\) A Principal components analysis (PCA) to generate composite predictor variables and minimize the dimensionality of auditory and cognitive assessments. (The data set after PCA is available for use ready)
 
+2\) After PCA, a summarization of participant characteristics and key predictor variables for the ONH and OHI groups have been done.
+
 2\) A correlational analyses to see which predictors were linked to speech recognition results. A subset of important predictors was chosen for additional examination based on these findings.
 
 3\) A multiple regression dominance analysis to get certain the relative significance of each predictor in explaining variance in speech recognition performance.
@@ -64,15 +66,13 @@ Like I mentioned above, the original study looked at the association between pre
 
 I choose to replicate the following analyses from above except for the initial exploratory data analysis i am going to do.
 
-1.  First, descriptive statistics are used to summarize participant characteristics and key predictor variables for the ONH and OHI groups. This includes variables such as age, hearing sensitivity, working memory, vocabulary, and speech glimpsing ability.
+1.  First, descriptive statistics are used to summarize participant characteristics and key predictor variables for the ONH and OHI groups. I do this analysis using variables of age, gender, hearing sensitivity.
 
-2.  Second, a descriptive visualization is created using violin plots to compare the distributions of key predictor variables between groups, similar to Fig. 3 in the original study.
+2.  Second, I will create a descriptive visualization is created using violin plots to compare the distributions of key predictor variables between groups, similar to Figure 3 in the original study.
 
-3.  Third, an inferential analysis is conducted to examine the relationship between predictor variables and speech recognition outcomes, providing a simplified approximation of the dominance analysis used in the original study.I will do a visualzation of this analysis too.
+3.  Third, I will conduct an inferential analysis to examine the relationship between predictor variables and speech recognition outcomes, providing a simplified approximation of the dominance analysis used in the original study.I will do a visualization of this analysis too.
 
-4.  Finally, a correlation analysis is performed to explore relationships between auditory and cognitive predictors and speech recognition performance, and to assess whether similar patterns to those reported in the original study are observed.
-
-\@\@\@\@\@\@\@\@\@\@\@
+4.  Finally, a I will do a correlation analysis is performed to explore relationships between auditory and cognitive predictors and speech recognition performance, and to assess whether similar patterns to those reported in the original study are observed. This will be a second descriptive analysis.
 
 ## Variables used in the study
 
@@ -185,11 +185,11 @@ The dataset includes principal component (PCA) scores for auditory and cognitive
 
 ### Descriptive Analysis: Participant characteristics
 
-The first descriptive analysis in the original paper focuses on describing the demographic and baseline characteristics of the participants. This includes summarizing age, gender distribution, hearing thresholds, and key predictor variables for the two groups: older normal-hearing (ONH) and older hearing-impaired (OHI) listeners.
+The first descriptive analysis in the original paper focuses on describing the demographic and baseline characteristics of the participants. This includes summarizing age, gender distribution, hearing thresholds, for the two groups: older normal-hearing (ONH) and older hearing-impaired (OHI) listeners.
 
 The goal of this analysis is to replicate the general patterns reported in the original study, such as differences in hearing thresholds between groups and similarities in cognitive abilities.
 
-Now I am loading the correct sheet where the data after doing the PCA.
+Now I am loading the correct sheet where the data after doing the PCA., which is named as "Predictors&Outcomes"/\].
 
 ```{r}
 df <- read_excel(
@@ -220,18 +220,15 @@ Gender distribution
 table(df$HearGroup, df$Sex)
 ```
 
-Key predictor variables : Audiogram_PCA ; Glimpsing ; WorkingMemory_PCA; Vocabulary. The authors have not generated any kind of summarization or any descriptive statistics out of these variables. But, they have analyzed a frequecny by frequency mean audiogram from raw threshold columns like 250Hz, 500Hz, 1000Hz and so on from the "AuditoryVariables" sheet.
+Key predictor variables : Audiogram_PCA ; Glimpsing ; WorkingMemory_PCA; Vocabulary. The authors have not generated any kind of summarization or any descriptive statistics out of these variables. But, they have analyzed a frequency by frequency mean audiogram from raw audiometric threshold columns like 250Hz, 500Hz, 1000Hz and so on from the "AuditoryVariables" sheet.
 
 So I am trying to replicate that.
 
-```{r}
-library(readxl)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
+for that I need to seperate a dataset that only ha sthe threshold columns.
 
-# Keep only audiogram frequencies used in the figure
-aud_long <- auditory_variables %>%
+```{r}
+
+auditory_variables_long <- auditory_variables %>%
   select(HearGroup, `250 Hz`, `500 Hz`, `1000 Hz`, `2000 Hz`, `4000 Hz`, `8000 Hz`) %>%
   pivot_longer(
     cols = `250 Hz`:`8000 Hz`,
@@ -245,8 +242,7 @@ aud_long <- auditory_variables %>%
     )
   )
 
-# Group means and SDs
-aud_summary <- aud_long %>%
+auditory_variables_summary <- auditory_variables_long %>%
   group_by(HearGroup, Frequency) %>%
   summarise(
     mean_threshold = mean(Threshold, na.rm = TRUE),
@@ -254,8 +250,12 @@ aud_summary <- aud_long %>%
     .groups = "drop"
   )
 
-aud_summary
+auditory_variables_summary
 ```
+
+Now I can make a scatter kind of plot also using the sd_threshold just like in the original study.
+
+The speciality is when plotting an audiogram we have to make the y axis reverse, because lower thresholds are the better and higher values.
 
 ```{r}
 ggplot(aud_summary, aes(x = Frequency, y = mean_threshold,
@@ -276,38 +276,54 @@ ggplot(aud_summary, aes(x = Frequency, y = mean_threshold,
   theme_classic()
 ```
 
-```{r}
-df %>%
-  group_by(HearGroup) %>%
-  summarise(
-    Audiogram_mean = mean(Audiogram_PCA),
-    Audiogram_sd = sd(Audiogram_PCA),
-    
-    Glimpsing_mean = mean(Glimpsing),
-    Glimpsing_sd = sd(Glimpsing),
-    
-    WM_mean = mean(WorkingMemory_PCA),
-    WM_sd = sd(WorkingMemory_PCA),
-    
-    Vocabulary_mean = mean(Vocabulary),
-    Vocabulary_sd = sd(Vocabulary)
-  )
-```
-
 ### Replication Analysis 2: Descriptive Visualization
 
-To complement the descriptive statistics, violin plots will be created to compare the distributions of key predictor variables between ONH and OHI groups. The selected variables include:
+To visualize a part of the above descriptive statistics, I will try to create the violin plots to compare the distributions of key predictor variables between ONH and OHI groups. The selected variables include:
 
--   Audiogram PCA (hearing sensitivity)
+-   Audiogram PCA (hearing sensitivity) - now not the raw threshold values but value s after PCA
 -   Speech glimpsing ability
 -   Working memory PCA
 -   Vocabulary knowledge
 
-These visualizations are inspired by Fig. 3 in the original study and provide a clear representation of group differences, including distribution shape, variability, and central tendency.
+These all values are extracted from the same after PCA data sheet.
+
+To create the violin plots,
+
+```{r}
+
+df$HearGroup <- factor(df$HearGroup, levels = c("ONH", "OHI"))
+
+plot_df <- df %>%
+  select(HearGroup, Audiogram_PCA, Glimpsing, WorkingMemory_PCA, Vocabulary) %>%
+  pivot_longer(
+    cols = c(Audiogram_PCA, Glimpsing, WorkingMemory_PCA, Vocabulary),
+    names_to = "Variable",
+    values_to = "Value"
+  ) %>%
+  mutate(
+    Variable = factor(
+      Variable,
+      levels = c("Audiogram_PCA", "Glimpsing", "WorkingMemory_PCA", "Vocabulary"),
+      labels = c("Audiogram PCA", "Glimpsing (z-score)", "Working Memory PCA", "Vocab.Knowledge -z-score")
+    )
+  )
+
+ggplot(plot_df, aes(x = HearGroup, y = Value)) +
+  geom_violin(trim = FALSE, fill = "grey80", color = "black") +
+  geom_boxplot(width = 0.12, fill = "white", outlier.shape = NA) +
+  stat_summary(fun = median, geom = "point", size = 2) +
+  facet_wrap(~Variable, scales = "free_y", nrow = 1) +
+  labs(
+    x = NULL,
+    y = NULL,
+    title = "Violin plots for the four predictor variables"
+  ) +
+  theme_classic()
+```
 
 ### Replication Analysis 3: Inferential Analysis: Predictor Importance
 
-The second analysis aims to examine the relative contribution of predictor variables to speech recognition performance. The original study used dominance analysis to quantify the proportion of variance explained by each predictor across datasets and performance levels.
+Now I am going to replicate the relative contribution of predictor variables to speech recognition performance. The original study used dominance analysis to quantify the proportion of variance explained by each predictor across datasets and performance levels.
 
 In this replication, a simplified inferential approach will be used to approximate these relationships by examining how key predictors (Audiogram PCA, glimpsing, working memory, and vocabulary) relate to speech recognition outcomes. This allows for evaluation of whether similar patterns emerge, such as the stronger role of vocabulary for ONH listeners and glimpsing for OHI listeners.
 
