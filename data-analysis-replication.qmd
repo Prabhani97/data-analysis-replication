@@ -33,10 +33,13 @@ Participants: 40 adults (20 with normal hearing (ONH) and 20 with hearing impair
 
 Predictor variables:
 
-| **Auditory measures** | Auditory and Cognitive measures |
-|----|----|
-| Hearing thresholds | Tasks assessing working memory, episodic memory, processing speed, and executive function |
-| Speech related processing abilities (modulation detection and speech glimpsing) | Cognitive linguistic measures such as vocabulary knowledge and linguistic closure |
++---------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
+| **Auditory measures**                                                           | Auditory and Cognitive measures                                                           |
++=================================================================================+===========================================================================================+
+| Hearing thresholds                                                              | Tasks assessing working memory, episodic memory, processing speed, and executive function |
++---------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
+| Speech related processing abilities (modulation detection and speech glimpsing) | Cognitive linguistic measures such as vocabulary knowledge and linguistic closure         |
++---------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
 
 Dataset
 
@@ -66,7 +69,7 @@ Like I mentioned above, the original study looked at the association between pre
 
 -   This analysis was carried out independently for the ONH and OHI groups, as well as for various datasets and task difficulty levels (SRT20, SRT50, and SRT80).
 
-#### 4) Analyses Chosen for Replication
+#### 4) Analyses chosen for replication
 
 I choose to replicate the following analyses from above except for the initial exploratory data analysis i am going to do.
 
@@ -187,9 +190,9 @@ These findings support the use of principal components analysis (PCA) in the ori
 
 The dataset includes principal component (PCA) scores for auditory and cognitive predictors, as well as speech recognition thresholds (SRTs) for multiple datasets. Because PCA variables are already provided, I am not going to recompute PCA, and instead I use these variables directly in the analyses.
 
-## Replication Analysis 1: Descriptive Statistics
+## Replication analysis 1: Descriptive statistics
 
-### Descriptive Analysis: Participant characteristics
+### Descriptive analysis: Participant characteristics
 
 The first descriptive analysis in the original paper focuses on describing the demographic and baseline characteristics of the participants. This includes summarizing age, gender distribution, hearing thresholds, for the two groups: older normal-hearing (ONH) and older hearing-impaired (OHI) listeners.
 
@@ -288,7 +291,7 @@ ggplot(aud_summary, aes(x = Frequency, y = mean_threshold,
   theme_classic()
 ```
 
-### Replication Analysis 2: Descriptive visualization
+### Replication analysis 2: Descriptive visualization
 
 To visualize a part of the above descriptive statistics, I will try to create the violin plots to compare the distributions of key predictor variables between ONH and OHI groups. The selected variables include:
 
@@ -333,7 +336,7 @@ ggplot(plot_df, aes(x = HearGroup, y = Value)) +
   theme_classic()
 ```
 
-### Replication Analysis 3: Inferential analysis: Predictor importance
+### Replication analysis 3: Inferential analysis: Predictor importance
 
 Now I am going to replicate out of all predictors, which one contributes most to explaining speech recognition. The original study used dominance analysis to determine the relative contribution of the above four predictor variables to speech recognition 
 
@@ -562,7 +565,7 @@ ggplot(voc_plot, aes(x = SRT, y = Contribution, fill = Dataset)) +
   labs(title = "Vocabulary Knowledge")
 ```
 
-### Replication Analysis 4: Second Descriptive Analysis: Correlation Analysis
+### Replication analysis 4: Second descriptive analysis: Correlation analysis
 
 Finally, I do a correlation analysis to examine relationships between predictor variables and speech recognition outcomes. This is different from the initial correlation analysis I did in initial data visualzation, this analysis os predictor variables vs the SRTs, not between each predictor variables.
 
@@ -659,18 +662,18 @@ correlation_table_wide
 
 ## Discussion and Reflection
 
-### 1) Comparison to the Original Paper
+### 1) Comparison to the original paper
 
-### [Comparison of Analysis 1: Descriptive Statistics]{.underline}
+### [Comparison of analysis 1: Descriptive statistics]{.underline}
 
 1\) The descriptive statistics obtained in this part closely match with the patterns reported in the original study.
 
 +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| #### Reported participant characteristics in the Original Study                                                                                                                                         | #### Replicated results                                                                                                                                                                                                                         |
+| #### Reported participant characteristics in the original study                                                                                                                                         | #### Replicated results                                                                                                                                                                                                                         |
 +=========================================================================================================================================================================================================+=================================================================================================================================================================================================================================================+
-| The original study reported that the ONH group had a mean age of approximately 67 years (range: 60–74 years), while the OHI group had a higher mean age of approximately 72 years (range: 60–85 years). | The replicated results using their provided dataset showed a mean age of 67.4 years for the ONH group and 72.2 years for the OHI group.[Replication Analysis 1: Descriptive Statistics]                                                         |
+| The original study reported that the ONH group had a mean age of approximately 67 years (range: 60–74 years), while the OHI group had a higher mean age of approximately 72 years (range: 60–85 years). | The replicated results using their provided dataset showed a mean age of 67.4 years for the ONH group and 72.2 years for the OHI group.[Replication analysis 1: Descriptive statistics]                                                         |
 +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| In terms of gender distribution, the ONH group consisted of 17 females and 3 males, whereas the OHI group included 13 females and 7 males.                                                              | The replication showed gender distribution is also identical to that reported in the original study, with 17 females and 3 males in the ONH group, and 13 females and 7 males in the OHI group.[Replication Analysis 1: Descriptive Statistics] |
+| In terms of gender distribution, the ONH group consisted of 17 females and 3 males, whereas the OHI group included 13 females and 7 males.                                                              | The replication showed gender distribution is also identical to that reported in the original study, with 17 females and 3 males in the ONH group, and 13 females and 7 males in the OHI group.[Replication analysis 1: Descriptive statistics] |
 +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 : Comparison of Analysis 1: Descriptive Statistics
@@ -691,11 +694,11 @@ correlation_table_wide
 
 No specific challenges were faced in this section, because the column names were clear in the data set in what to choose other than the additional preprocessing required for handling multi level headers in the auditory variables data sheet.
 
-### [Comparison of Analysis 2: Descriptive visualization]{.underline}
+### [Comparison of analysis 2: Descriptive visualization]{.underline}
 
 The original study used violin plots (Fig. 3) to compare the distributions of four key predictor variables between ONH and OHI groups: Audiogram PCA, speech glimpsing, Working Memory PCA, and vocabulary knowledge.
 
-#### Original Study - **Fig 3.** Violin plots for the four predictor variables
+#### Original study - **Fig 3.** Violin plots for the four predictor variables
 
 ![Violin plots for the four predictor variables](images/Violin%20plots%20for%20the%20four%20predictor%20variables.jpg)
 
@@ -727,7 +730,7 @@ Reasons I think for the minor differences,
 
 -   Another was matching the visual style of the original figure. The original study includes specific formatting choices such as panel layout, axis scaling, and annotations, which were not fully described in the methods section.
 
-### [Comparison of Analysis 3: Inferential analysis: Predictor importance]{.underline}
+### [Comparison of analysis 3: Inferential analysis: Predictor importance]{.underline}
 
 #### Original study results
 
@@ -749,17 +752,25 @@ The main replicated results of the dominance analysis are in the "dominance_all"
 
 From that I generated the final ranking of the predictors for the two groups. It is in the "summary_dominance_analysis_table" variable generated, which I also paste here below as a table, for easily see the results section I write.
 
-|           |                        |            |            |
-|-----------|------------------------|------------|------------|
-| **Group** | **Predictor variable** | **Mean**   | **SD**     |
-| OHI       | WorkingMemory_PCA      | 0.12457697 | 0.03502737 |
-| OHI       | Vocabulary             | 0.07989077 | 0.03688142 |
-| OHI       | Glimpsing              | 0.22593611 | 0.05201853 |
-| OHI       | Audiogram_PCA          | 0.24680431 | 0.11348276 |
-| ONH       | Glimpsing              | 0.01665064 | 0.01347164 |
-| ONH       | Vocabulary             | 0.19915969 | 0.05482451 |
-| ONH       | WorkingMemory_PCA      | 0.13108319 | 0.05883812 |
-| ONH       | Audiogram_PCA          | 0.24907301 | 0.0747741  |
++--------------+------------------------+--------------+--------------+
+| **Group**    | **Predictor variable** | **Mean**     | **SD**       |
++--------------+------------------------+--------------+--------------+
+| OHI          | WorkingMemory_PCA      | 0.12457697   | 0.03502737   |
++--------------+------------------------+--------------+--------------+
+| OHI          | Vocabulary             | 0.07989077   | 0.03688142   |
++--------------+------------------------+--------------+--------------+
+| OHI          | Glimpsing              | 0.22593611   | 0.05201853   |
++--------------+------------------------+--------------+--------------+
+| OHI          | Audiogram_PCA          | 0.24680431   | 0.11348276   |
++--------------+------------------------+--------------+--------------+
+| ONH          | Glimpsing              | 0.01665064   | 0.01347164   |
++--------------+------------------------+--------------+--------------+
+| ONH          | Vocabulary             | 0.19915969   | 0.05482451   |
++--------------+------------------------+--------------+--------------+
+| ONH          | WorkingMemory_PCA      | 0.13108319   | 0.05883812   |
++--------------+------------------------+--------------+--------------+
+| ONH          | Audiogram_PCA          | 0.24907301   | 0.0747741    |
++--------------+------------------------+--------------+--------------+
 
 -   The replication's dominance analysis results closely match the main conclusions from the original study.
 
@@ -781,7 +792,7 @@ The generated plots for the dominance analysis also revealed the same pattern I 
 
 ![Example plot of the replicated results of the dominance analysis.](images/Replicated%20figures/Replicated%20results%20of%20the%20dominance%20analysis_1)
 
-### [Comparison of Analysis 4: Second Descriptive Analysis: Correlation Analysis]{.underline}
+### [Comparison of analysis 4: Second descriptive analysis: Correlation analysis]{.underline}
 
 #### Original study : **Table 3. Correlation matrix of predictor variables with the three speech recognition outcome datasets. ( I am not going to paste the table here again because it is a complex table)**
 
@@ -793,30 +804,42 @@ The generated plots for the dominance analysis also revealed the same pattern I 
 
 -   Speech recognition results showed moderately negative associations with vocabulary and working memory PCA, especially in the ONH group, suggesting a higher dependence on cognitive-linguistic variables. Overall, the direction and relative strength of correlations are quite similar to those found in the original study, indicating that the primary findings were successfully replicated.
 
-### Challenges/ Reasons for challenges and missing details in the original study
+### Challenges/ reasons for challenges and missing details in the original study
 
-Challenges
+[Challenges]{.underline}
 
 -   The replication process ran into some difficulties.
 
--   The dataset's structure, which included multi-level headers and both raw and PCA-derived variables, was one of the main challenges.
+-   The dataset's structure, which included multi-level headers and both raw and PCA derived variables, was one of the main challenges.
 
--   Careful interpretation was needed to find the right variables and match them with those utilized in the original study.
+-   Careful inspection was needed to find the right variables and match them with those utilized in the original study.
 
--   Additionally, fitting several regression models and summarizing findings across conditions made it difficult to execute more advanced analyses, such dominance analysis.
+-   The dominance analysis was very hard for me. The major reason was I was less familiarized with the type of overall analysis even though I was familiar with linear models.
 
 -   Additional data processing and restructure were also necessary to match the precise structure of reported outputs, such as correlation matrices and visualizations.
 
-Reasons for challenges
+[Reasons for challenges]{.underline}
 
-The original study's lack of methodological detail was a major contributing factor to these difficulties. Although the work provided a conceptual description of the broad analytical methodologies, it omitted important implementation specifics such variable scaling, treatment of missing values, data preprocessing stages, and the precise computational procedures utilized for dominance analysis. Similarly, there was no explicit reporting of display characteristics such as statistical annotations, scaling, and smoothing.
+-   The original study's lack of methodological detail was a major contributing factor to these difficulties.
 
-missing details in the original study
+-   Although the work provided a conceptual description of the broad analytical methodologies, it has not givem important implementation specifics such variable scaling, how to treat missing values, data preprocessing stages, and the precise computational procedures utilized for dominance analysis.
 
-Minor numerical and visual discrepancies between the replicated and original results may be explained by the need to make appropriate assumptions during replication due to the lack of these details. Notwithstanding these drawbacks, the general consistency in patterns and interpretations shows that the replication was reliable and effectively conveyed the study's main conclusions.
+-   Similarly, there was no reporting of display characteristics such as statistical annotations, scaling, and smoothing.
+
+[Missing details in the original study]{.underline}
+
+-   Minor numerical and visual differences between the replicated and original results are may be explained by the need to make appropriate assumptions during replication due to the lack of these details.
+
+-   But I think I was able to obtain the general patterns shows that the replication was successful and replicated original study's conclusion.
 
 ## References
 
-1\) The study referred - link
+1\) The study referred - <https://doi.org/10.1371/journal.pone.0331487>
 
-2)Dominance analysis - Humes et al. 2021 - <https://doi.org/10.3389/fnagi.2021.702739>
+2\) Reference for the Dominance analysis - Humes et al. 2021 <https://doi.org/10.3389/fnagi.2021.702739>
+
+3\) Conceptual Introduction to Dominance Analysis - [https://cran.rproject.org/web/packages/domir/vignettes/domir_basics.html](https://cran.r-project.org/web/packages/domir/vignettes/domir_basics.html)
+
+4\) How to Read an Audiogram - <https://iowaprotocols.medicine.uiowa.edu/protocols/how-read-audiogram>
+
+5\) What is Correlation Analysis? A Definition and Explanation - <https://blog.flexmr.net/correlation-analysis-definition-exploration>
