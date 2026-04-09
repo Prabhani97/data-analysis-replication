@@ -33,13 +33,10 @@ Participants: 40 adults (20 with normal hearing (ONH) and 20 with hearing impair
 
 Predictor variables:
 
-+---------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
-| **Auditory measures**                                                           | Auditory and Cognitive measures                                                           |
-+=================================================================================+===========================================================================================+
-| Hearing thresholds                                                              | Tasks assessing working memory, episodic memory, processing speed, and executive function |
-+---------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
-| Speech related processing abilities (modulation detection and speech glimpsing) | Cognitive linguistic measures such as vocabulary knowledge and linguistic closure         |
-+---------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
+| **Auditory measures** | Auditory and Cognitive measures |
+|----|----|
+| Hearing thresholds | Tasks assessing working memory, episodic memory, processing speed, and executive function |
+| Speech related processing abilities (modulation detection and speech glimpsing) | Cognitive linguistic measures such as vocabulary knowledge and linguistic closure |
 
 Dataset
 
