@@ -684,11 +684,11 @@ correlation_table_wide
 
 #### Original Study - **Fig 1. Mean audiograms for the two listener groups**
 
-![Mean audiograms for the two listener groups](images/Mean%20audiograms%20for%20the%20two%20listener%20groups.png){width="400"}
+![Mean audiograms for the two listener groups](images/Mean audiograms for the two listener groups_original.png){width="400"}
 
 #### Replicated mean audiogram values for the two groups
 
-![Replicaed mean audiograms for the two listener groups](images/Replicated%20figures/Replicated%20mean%20audiogram.png){width="500"}
+![Replicaed mean audiograms for the two listener groups](images/Replicated mean audiogram.png){width="500"}
 
 **The audiogram visualization also successfully replicates the main pattern shown in Fig. 1 of the original study. In both the original and replicated figures, the OHI group shows elevated hearing thresholds across frequencies compared to the ONH group, with the largest differences at higher frequencies. The overall shape and trend of the curves are highly consistent between the two figures.**
 
@@ -700,7 +700,7 @@ The original study used violin plots (Fig. 3) to compare the distributions of fo
 
 #### Original study - **Fig 3.** Violin plots for the four predictor variables
 
-![Violin plots for the four predictor variables](images/Violin%20plots%20for%20the%20four%20predictor%20variables.jpg)
+![Violin plots for the four predictor variables](images/Violin plots for the four predictor variables_original.jpg)
 
 In the original figure, we can see clear group differences for predictors. The OHI group showed higher Audiogram PCA values, indicating poorer hearing sensitivity, and lower glimpsing scores compared to the ONH group. Generally, the distributions of Working Memory PCA and vocabulary knowledge appeared similar across the two groups, suggesting comparable cognitive abilities.
 
@@ -708,7 +708,7 @@ In the original figure, we can see clear group differences for predictors. The O
 
 The replicated violin plots show very similar patterns.
 
-![Replicated violin plots for the four predictor variables.](images/Replicated%20figures/Replicated%20violin%20plots%20for%20the%20four%20predictor%20variables.jpg)
+![Replicated violin plots for the four predictor variables.](images/Replicated violin plots for the four predictor variables.jpg)
 
 The replicated violin plots show very similar patterns. But,
 
@@ -744,7 +744,7 @@ Reasons I think for the minor differences,
 
 **Original study: Fig 4. Results of the dominance analysis**
 
-![Results of the dominance analysis](images/Results%20of%20the%20dominance%20analysis..jpg)
+![Results of the dominance analysis](images/Results of the dominance analysis_original.jpg){width="500"}
 
 **Replicated results**
 
@@ -790,7 +790,7 @@ I also plotted the results from my above variable tables: I am presenting only o
 
 The generated plots for the dominance analysis also revealed the same pattern I see in the original study.
 
-![Example plot of the replicated results of the dominance analysis.](images/Replicated%20figures/Replicated%20results%20of%20the%20dominance%20analysis_1)
+![Example plot of the replicated results of the dominance analysis.](images/Replicated results of the dominance analysis_1)
 
 ### [Comparison of analysis 4: Second descriptive analysis: Correlation analysis]{.underline}
 
