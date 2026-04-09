@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Prabhani Athukorala">
+
+<title>Data Analysis Replication</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="data-analysis-replication_files/libs/clipboard/clipboard.min.js"></script>
+<script src="data-analysis-replication_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="data-analysis-replication_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="data-analysis-replication_files/libs/quarto-html/popper.min.js"></script>
+<script src="data-analysis-replication_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="data-analysis-replication_files/libs/quarto-html/anchor.min.js"></script>
+<link href="data-analysis-replication_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="data-analysis-replication_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="data-analysis-replication_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="data-analysis-replication_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="data-analysis-replication_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Data Analysis Replication</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Prabhani Athukorala </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">fig.path =</span> <span class="st">"images/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This report presents a replication of selected data analyses from the study “<strong>Auditory and cognitive contributions to recognition of degraded speech in noise: Individual differences among older adults”</strong> by <strong>Daniel Fogerty and Judy R. Dubno.</strong></p>
+<p>This study belongs to the field of auditory neuroscience and speech perception.</p>
+<p>The goal of this replication is to reproduce a subset of key statistical findings in the above study using R and to evaluate how closely the replicated results align with those reported in the original study.</p>
+</section>
+<section id="original-study-overview" class="level2">
+<h2 class="anchored" data-anchor-id="original-study-overview">Original Study Overview</h2>
+<section id="goal-of-the-study" class="level4">
+<h4 class="anchored" data-anchor-id="goal-of-the-study">1) Goal of the study</h4>
+<ul>
+<li><p>This study looked at how older adults’ auditory and cognitive capacities affect their ability to recognize speech in noisy environments.</p></li>
+<li><p>The study specifically examined individual differences in speech recognition skills between older people with hearing impairment (OHI) and those with. normal hearing (ONH).</p></li>
+<li><p>To understand degraded speech under difficult listening situations, the authors attempted to identify which underlying skills such as hearing sensitivity, working memory, vocabulary knowledge, and speech “glimpsing” ability are most crucial.</p></li>
+</ul>
+</section>
+<section id="data-used-in-the-original-study" class="level4">
+<h4 class="anchored" data-anchor-id="data-used-in-the-original-study">2) Data used in the original study</h4>
+<p>Participants: 40 adults (20 with normal hearing (ONH) and 20 with hearing impairment (OHI))</p>
+<p>Predictor variables:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 47%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Auditory measures</strong></th>
+<th>Auditory and Cognitive measures</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hearing thresholds</td>
+<td>Tasks assessing working memory, episodic memory, processing speed, and executive function</td>
+</tr>
+<tr class="even">
+<td>Speech related processing abilities (modulation detection and speech glimpsing)</td>
+<td>Cognitive linguistic measures such as vocabulary knowledge and linguistic closure</td>
+</tr>
+</tbody>
+</table>
+<p>Dataset</p>
+<p>Three experimental degraded speech conditions were considered.</p>
+<ol type="1">
+<li><p>Spectrally reduced speech</p></li>
+<li><p>Speech in modulated noise</p></li>
+<li><p>A combination of both</p></li>
+</ol>
+<p>For each data set above, speech recognition thresholds (SRTs) were calculated at 20%, 50%, and 80% recognition levels. The three datasets described in the original study do not refer to separate data files, but rather to three different experimental speech recognition conditions. These are represented in the dataset by separate outcome variables (D1, D2, D3), each corresponding to a different type of degraded speech condition.</p>
+<p>The method used to do that was psychometric functions based on the extended Short-Time Objective Intelligibility (eSTOI). ( This is a mathematical mapping model that relate the objective eSTOI score (a scalar between 0 and 1) to subjective human speech intelligibility scores).</p>
+</section>
+<section id="analyses-conducted-in-the-original-study" class="level4">
+<h4 class="anchored" data-anchor-id="analyses-conducted-in-the-original-study">3) Analyses conducted in the original study</h4>
+<p>Like I mentioned above, the original study looked at the association between predictor variables and speech recognition performance. the statistical methods they used are:</p>
+<p>1) A Principal components analysis (PCA) to generate composite predictor variables and minimize the dimensionality of auditory and cognitive assessments. (The data set after PCA is available for use ready)</p>
+<p>2) After PCA, a summarization of participant characteristics and key predictor variables for the ONH and OHI groups have been done.</p>
+<p>2) A correlational analyses to see which predictors were linked to speech recognition results. A subset of important predictors was chosen for additional examination based on these findings.</p>
+<p>3) A multiple regression dominance analysis to get certain the relative significance of each predictor in explaining variance in speech recognition performance.</p>
+<ul>
+<li>This analysis was carried out independently for the ONH and OHI groups, as well as for various datasets and task difficulty levels (SRT20, SRT50, and SRT80).</li>
+</ul>
+</section>
+<section id="analyses-chosen-for-replication" class="level4">
+<h4 class="anchored" data-anchor-id="analyses-chosen-for-replication">4) Analyses chosen for replication</h4>
+<p>I choose to replicate the following analyses from above except for the initial exploratory data analysis i am going to do.</p>
+<ol type="1">
+<li><p>First, descriptive statistics are used to summarize participant characteristics and key predictor variables for the ONH and OHI groups. I do this analysis using variables of age, gender, hearing sensitivity.</p></li>
+<li><p>Second, I will create a descriptive visualization is created using violin plots to compare the distributions of key predictor variables between groups, similar to Figure 3 in the original study.</p></li>
+<li><p>Third, I will conduct an inferential analysis to examine the relationship between predictor variables and speech recognition outcomes, providing a simplified approximation of the dominance analysis used in the original study.I will do a visualization of this analysis too.</p></li>
+<li><p>Finally, a I will do a correlation analysis is performed to explore relationships between auditory and cognitive predictors and speech recognition performance, and to assess whether similar patterns to those reported in the original study are observed. This will be a second descriptive analysis.</p></li>
+</ol>
+</section>
+</section>
+<section id="variables-used-in-the-study" class="level2">
+<h2 class="anchored" data-anchor-id="variables-used-in-the-study">Variables used in the study</h2>
+</section>
+<section id="data-import-and-initial-inspection-visualization-of-data" class="level2">
+<h2 class="anchored" data-anchor-id="data-import-and-initial-inspection-visualization-of-data">Data import and initial inspection, visualization of data</h2>
+<p>The dataset I am going to use for this replication, was obtained from the supporitng information provided with the original paper.</p>
+<p>The data file contains participant level measurements auditory and cognitive predictor variables, and speech recognition outcomes.</p>
+<p>1) I will initially inspect the structure of the dataset and the relationships among variables. What I want to show is how these datasets contain large number of variables and why they expected redundancy among them and why it was necessary to first reduce the dimensionality of the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Installed the packages "corrplot" and "combinat" and loading the necessary libraries, I have removed installing code lines after installing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.2.1     ✔ readr     2.1.6
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.1     ✔ tibble    3.3.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.2
+✔ purrr     1.2.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>corrplot 0.95 loaded</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(combinat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'combinat'
+
+The following object is masked from 'package:utils':
+
+    combn</code></pre>
+</div>
+</div>
+<p>First I am going to load the data sheets for auditory and cognitive measures in <strong>Table 1. Summary table of experimental measures, including domains, tasks, and variables.</strong> <a href="https://doi.org/10.1371/journal.pone.0331487.t001" class="uri">https://doi.org/10.1371/journal.pone.0331487.t001</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>auditory_variables <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/journal.pone.0331487.s002.xlsx"</span>,<span class="at">sheet =</span> <span class="st">"AuditoryVariables"</span>,<span class="at">skip =</span> <span class="dv">1</span>) <span class="co"># Skipping the header above data columns because the auditory dataset contained multi-level headers</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>New names:
+• `` -&gt; `...11`
+• `` -&gt; `...16`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>cognitive_variables <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/journal.pone.0331487.s002.xlsx"</span>,</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sheet =</span> <span class="st">"CognitiveVariables (z-scores)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>First, doing a basic exploration</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(auditory_variables)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 19
+  SUBJ_ID HearGroup `250 Hz` `500 Hz` `1000 Hz` `2000 Hz` `3000 Hz` `4000 Hz`
+  &lt;chr&gt;   &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1 S01     ONH              5        5         5        10        10        10
+2 S02     ONH             10       15        15         5         5        10
+3 S03     ONH              0       -5         0         0        10         5
+4 S04     ONH             10       10         5        10        15        25
+5 S05     ONH              5        5        15        15         0        15
+6 S06     ONH             15       20        10        10        15        20
+# ℹ 11 more variables: `6000 Hz` &lt;dbl&gt;, `8000 Hz` &lt;dbl&gt;, ...11 &lt;lgl&gt;,
+#   MD_Low &lt;dbl&gt;, MD_High &lt;dbl&gt;, MDI_Low &lt;dbl&gt;, MDI_High &lt;dbl&gt;, ...16 &lt;lgl&gt;,
+#   SSN &lt;dbl&gt;, SMN &lt;dbl&gt;, `Glimpsing (SMN-SSN)` &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(auditory_variables)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 40
+Columns: 19
+$ SUBJ_ID               &lt;chr&gt; "S01", "S02", "S03", "S04", "S05", "S06", "S07",…
+$ HearGroup             &lt;chr&gt; "ONH", "ONH", "ONH", "ONH", "ONH", "ONH", "ONH",…
+$ `250 Hz`              &lt;dbl&gt; 5, 10, 0, 10, 5, 15, 20, 10, 10, 10, 5, 0, 25, 1…
+$ `500 Hz`              &lt;dbl&gt; 5, 15, -5, 10, 5, 20, 15, 5, 0, 10, 5, 5, 20, 5,…
+$ `1000 Hz`             &lt;dbl&gt; 5, 15, 0, 5, 15, 10, 15, 10, 0, 10, 10, 10, 5, 0…
+$ `2000 Hz`             &lt;dbl&gt; 10, 5, 0, 10, 15, 10, 10, 20, 10, 15, 10, 15, 15…
+$ `3000 Hz`             &lt;dbl&gt; 10, 5, 10, 15, 0, 15, 15, 5, 5, 10, 0, 5, 20, 20…
+$ `4000 Hz`             &lt;dbl&gt; 10, 10, 5, 25, 15, 20, 10, 25, 10, 15, 20, 10, 1…
+$ `6000 Hz`             &lt;dbl&gt; 5, 15, 25, 40, 20, 35, 45, 25, 10, 25, 20, 15, 2…
+$ `8000 Hz`             &lt;dbl&gt; 15, 30, 25, 55, 20, 55, 70, 70, 30, 30, 15, 25, …
+$ ...11                 &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ MD_Low                &lt;dbl&gt; 0.17, 0.31, 0.11, 0.15, 0.23, 0.37, 0.18, 0.29, …
+$ MD_High               &lt;dbl&gt; 0.16, 0.42, 0.33, 0.19, 0.19, 0.14, 0.38, 0.15, …
+$ MDI_Low               &lt;dbl&gt; 0.58, 0.23, 0.15, 0.18, 0.46, 0.25, 0.52, 0.38, …
+$ MDI_High              &lt;dbl&gt; 0.37, 0.60, 0.27, 0.72, 0.75, 0.33, 0.29, 0.38, …
+$ ...16                 &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ SSN                   &lt;dbl&gt; 0.66, 0.38, 0.44, 0.32, 0.40, 0.46, 0.18, 0.16, …
+$ SMN                   &lt;dbl&gt; 0.84, 0.72, 0.74, 0.52, 0.78, 0.84, 0.50, 0.54, …
+$ `Glimpsing (SMN-SSN)` &lt;dbl&gt; 0.18, 0.34, 0.30, 0.20, 0.38, 0.38, 0.32, 0.38, …</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cognitive_variables)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 11
+  SUBJ_ID HearGroup zShortRecall zNumSeries zABDS zVBDS zCategoryFluency
+  &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;            &lt;dbl&gt;
+1 S01     ONH              -0.65      -1.08  0.53  0.55             0.51
+2 S02     ONH              -0.21      -0.38  0.53  1.2             -1.17
+3 S03     ONH               0.68      -0.38 -0.86 -0.77            -0.5 
+4 S04     ONH               0.23      -1.78 -1.56 -1.42            -1.68
+5 S05     ONH               1.57       0.32 -0.16 -1.42            -0.16
+6 S06     ONH              -0.21       0.32  1.23  1.2              0.01
+# ℹ 4 more variables: zBackwardCounting &lt;dbl&gt;, zDelayRecall &lt;dbl&gt;,
+#   zConnections_Alternating &lt;dbl&gt;, zStroop_Mismatch &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(cognitive_variables)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 40
+Columns: 11
+$ SUBJ_ID                  &lt;chr&gt; "S01", "S02", "S03", "S04", "S05", "S06", "S0…
+$ HearGroup                &lt;chr&gt; "ONH", "ONH", "ONH", "ONH", "ONH", "ONH", "ON…
+$ zShortRecall             &lt;dbl&gt; -0.65, -0.21, 0.68, 0.23, 1.57, -0.21, -0.65,…
+$ zNumSeries               &lt;dbl&gt; -1.08, -0.38, -0.38, -1.78, 0.32, 0.32, 0.32,…
+$ zABDS                    &lt;dbl&gt; 0.53, 0.53, -0.86, -1.56, -0.16, 1.23, -1.56,…
+$ zVBDS                    &lt;dbl&gt; 0.55, 1.20, -0.77, -1.42, -1.42, 1.20, -0.11,…
+$ zCategoryFluency         &lt;dbl&gt; 0.51, -1.17, -0.50, -1.68, -0.16, 0.01, -0.50…
+$ zBackwardCounting        &lt;dbl&gt; 0.00, -1.30, -0.96, -1.65, -0.96, -0.61, 0.61…
+$ zDelayRecall             &lt;dbl&gt; -0.24, -0.66, -0.24, -0.66, 0.17, -0.24, -0.2…
+$ zConnections_Alternating &lt;dbl&gt; -0.17, -1.05, -0.48, -1.82, 0.49, -0.95, -0.4…
+$ zStroop_Mismatch         &lt;dbl&gt; -0.31, -1.25, -1.05, -0.05, -1.65, -1.25, -0.…</code></pre>
+</div>
+</div>
+<p>Now I am going to draw some distribution plots for the exploratory data analysis. There are no plots shown for this in the original paper. So I am going to draw.</p>
+<p>For auditory variables,</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>auditory_variables_long <span class="ot">&lt;-</span> auditory_variables<span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="st">`</span><span class="at">250 Hz</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">8000 Hz</span><span class="st">`</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"Frequency"</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"Threshold"</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(auditory_variables_long, <span class="fu">aes</span>(<span class="at">x =</span> Threshold)) <span class="sc">+</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">20</span>) <span class="sc">+</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Frequency, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Hearing Thresholds Across Frequencies"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="images/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Correlations between auditory variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>auditory_variables_1 <span class="ot">&lt;-</span> auditory_variables <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">250 Hz</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">8000 Hz</span><span class="st">`</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>auditory_correlations <span class="ot">&lt;-</span> <span class="fu">cor</span>(auditory_variables_1)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(auditory_correlations, <span class="at">method =</span> <span class="st">"color"</span>, <span class="at">type =</span> <span class="st">"upper"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="images/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>For cognitive variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>cognitive_variables_long <span class="ot">&lt;-</span> cognitive_variables <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> zShortRecall<span class="sc">:</span>zStroop_Mismatch,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"Test"</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"Score"</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cognitive_variables_long, <span class="fu">aes</span>(<span class="at">x =</span> Score)) <span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">20</span>) <span class="sc">+</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Test, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Cognitive Test Scores"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="images/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Correlations between cognitive variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>cognitive_variables_1 <span class="ot">&lt;-</span> cognitive_variables <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(zShortRecall<span class="sc">:</span>zStroop_Mismatch)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>cognitive_correlation <span class="ot">&lt;-</span> <span class="fu">cor</span>(cognitive_variables_1)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co"># drawing the correlation matrix</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(cognitive_correlation, <span class="at">method =</span> <span class="st">"color"</span>, <span class="at">type =</span> <span class="st">"upper"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="images/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The correlation matrices shows a substantial correlations among variables within both auditory and cognitive domains. In the auditory dataset, hearing thresholds across different frequencies show strong positive correlations, indicating that individuals with elevated thresholds at one frequency tend to show similar patterns across other frequencies. This suggests redundancy in the measurement of hearing sensitivity.</p>
+<p>Similarly, in the cognitive dataset, several measures show moderate to strong correlations, particularly among tasks assessing related cognitive functions such as memory and executive control. These patterns indicate that multiple variables may be capturing overlapping underlying constructs.</p>
+<p>These findings support the use of principal components analysis (PCA) in the original study, as PCA allows for the reduction of correlated variables into a smaller set of independent components representing underlying auditory and cognitive processes.</p>
+<p>The dataset includes principal component (PCA) scores for auditory and cognitive predictors, as well as speech recognition thresholds (SRTs) for multiple datasets. Because PCA variables are already provided, I am not going to recompute PCA, and instead I use these variables directly in the analyses.</p>
+</section>
+<section id="replication-analysis-1-descriptive-statistics" class="level2">
+<h2 class="anchored" data-anchor-id="replication-analysis-1-descriptive-statistics">Replication analysis 1: Descriptive statistics</h2>
+<section id="descriptive-analysis-participant-characteristics" class="level3">
+<h3 class="anchored" data-anchor-id="descriptive-analysis-participant-characteristics">Descriptive analysis: Participant characteristics</h3>
+<p>The first descriptive analysis in the original paper focuses on describing the demographic and baseline characteristics of the participants. This includes summarizing age, gender distribution, hearing thresholds, for the two groups: older normal-hearing (ONH) and older hearing-impaired (OHI) listeners.</p>
+<p>The goal of this analysis is to replicate the general patterns reported in the original study, such as differences in hearing thresholds between groups and similarities in cognitive abilities.</p>
+<p>Now I am loading the correct sheet where the data after doing the PCA., which is named as “Predictors&amp;Outcomes”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data/journal.pone.0331487.s002.xlsx"</span>,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sheet =</span> <span class="st">"Predictors&amp;Outcomes"</span>, ,<span class="at">skip =</span> <span class="dv">1</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>HearGroup <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>HearGroup)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Summarizing age and sample size.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(HearGroup) <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Age_mean =</span> <span class="fu">mean</span>(Age),</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Age_sd =</span> <span class="fu">sd</span>(Age),</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Age_min =</span> <span class="fu">min</span>(Age),</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Age_max =</span> <span class="fu">max</span>(Age)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 6
+  HearGroup     n Age_mean Age_sd Age_min Age_max
+  &lt;fct&gt;     &lt;int&gt;    &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+1 OHI          20     72.2   8.48      60      85
+2 ONH          20     67.4   4.01      60      74</code></pre>
+</div>
+</div>
+<p>Gender distribution</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df<span class="sc">$</span>HearGroup, df<span class="sc">$</span>Sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     
+       F  M
+  OHI 13  7
+  ONH 17  3</code></pre>
+</div>
+</div>
+<p>These above results showes that although the OHI group was slightly older on average, both groups were broadly comparable in age range. The gender distribution also shows a higher proportion of female participants in both groups, with a more balanced distribution in the OHI group.</p>
+<p>Key predictor variables : Audiogram_PCA ; Glimpsing ; WorkingMemory_PCA; Vocabulary. The authors have not generated any kind of summarization or any descriptive statistics out of these variables.</p>
+<p>But, they have analyzed a,</p>
+<section id="frequency-by-frequency-mean-audiogram-from-raw-audiometric-threshold-columns-like-250hz-500hz-1000hz-and-so-on-from-the-auditoryvariables-sheet." class="level4">
+<h4 class="anchored" data-anchor-id="frequency-by-frequency-mean-audiogram-from-raw-audiometric-threshold-columns-like-250hz-500hz-1000hz-and-so-on-from-the-auditoryvariables-sheet.">Frequency by frequency mean audiogram from raw audiometric threshold columns like 250Hz, 500Hz, 1000Hz and so on from the “AuditoryVariables” sheet.</h4>
+<p>So I am trying to replicate that.</p>
+<p>for that I need to seperate a dataset that only ha sthe threshold columns.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>auditory_variables_long <span class="ot">&lt;-</span> auditory_variables <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(HearGroup, <span class="st">`</span><span class="at">250 Hz</span><span class="st">`</span>, <span class="st">`</span><span class="at">500 Hz</span><span class="st">`</span>, <span class="st">`</span><span class="at">1000 Hz</span><span class="st">`</span>, <span class="st">`</span><span class="at">2000 Hz</span><span class="st">`</span>, <span class="st">`</span><span class="at">4000 Hz</span><span class="st">`</span>, <span class="st">`</span><span class="at">8000 Hz</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="st">`</span><span class="at">250 Hz</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">8000 Hz</span><span class="st">`</span>,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"Frequency"</span>,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"Threshold"</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Frequency =</span> <span class="fu">factor</span>(</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>      Frequency,</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"250 Hz"</span>, <span class="st">"500 Hz"</span>, <span class="st">"1000 Hz"</span>, <span class="st">"2000 Hz"</span>, <span class="st">"4000 Hz"</span>, <span class="st">"8000 Hz"</span>)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>auditory_variables_summary <span class="ot">&lt;-</span> auditory_variables_long <span class="sc">%&gt;%</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(HearGroup, Frequency) <span class="sc">%&gt;%</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_threshold =</span> <span class="fu">mean</span>(Threshold, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_threshold =</span> <span class="fu">sd</span>(Threshold, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>auditory_variables_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 4
+   HearGroup Frequency mean_threshold sd_threshold
+   &lt;chr&gt;     &lt;fct&gt;              &lt;dbl&gt;        &lt;dbl&gt;
+ 1 OHI       250 Hz             14           10.3 
+ 2 OHI       500 Hz             19           13.9 
+ 3 OHI       1000 Hz            22           12.0 
+ 4 OHI       2000 Hz            33            9.38
+ 5 OHI       4000 Hz            48            5.71
+ 6 OHI       8000 Hz            67           13.5 
+ 7 ONH       250 Hz              9.5          6.05
+ 8 ONH       500 Hz              9.5          7.24
+ 9 ONH       1000 Hz             8.75         5.82
+10 ONH       2000 Hz            11            5.76
+11 ONH       4000 Hz            16            5.98
+12 ONH       8000 Hz            37.5         19.0 </code></pre>
+</div>
+</div>
+<p>Now I can make a scatter kind of plot also using the sd_threshold just like in the original study.</p>
+<p>The speciality is when plotting an audiogram we have to make the y axis reverse, because lower thresholds are the better and higher values.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(auditory_variables_summary, <span class="fu">aes</span>(<span class="at">x =</span> Frequency, <span class="at">y =</span> mean_threshold,</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">group =</span> HearGroup, <span class="at">shape =</span> HearGroup, <span class="at">linetype =</span> HearGroup)) <span class="sc">+</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">ymin =</span> mean_threshold <span class="sc">-</span> sd_threshold, <span class="at">ymax =</span> mean_threshold <span class="sc">+</span> sd_threshold),</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">0.1</span>,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"black"</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>() <span class="sc">+</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Mean Audiograms for the Two Listener Groups"</span>,</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Frequency (Hz)"</span>,</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Threshold (dB HL)"</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="images/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="replication-analysis-2-descriptive-visualization" class="level3">
+<h3 class="anchored" data-anchor-id="replication-analysis-2-descriptive-visualization">Replication analysis 2: Descriptive visualization</h3>
+<p>To visualize a part of the above descriptive statistics, I will try to create the violin plots to compare the distributions of key predictor variables between ONH and OHI groups. The selected variables include:</p>
+<ul>
+<li>Audiogram PCA (hearing sensitivity) - now not the raw threshold values but value s after PCA</li>
+<li>Speech glimpsing ability</li>
+<li>Working memory PCA</li>
+<li>Vocabulary knowledge</li>
+</ul>
+<p>These all values are extracted from the same after PCA data sheet.</p>
+<p>To create the violin plots,</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>HearGroup <span class="ot">&lt;-</span> <span class="fu">factor</span>(df<span class="sc">$</span>HearGroup, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"ONH"</span>, <span class="st">"OHI"</span>))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(HearGroup, Audiogram_PCA, Glimpsing, WorkingMemory_PCA, Vocabulary) <span class="sc">%&gt;%</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">c</span>(Audiogram_PCA, Glimpsing, WorkingMemory_PCA, Vocabulary),</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"Variable"</span>,</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"Value"</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Variable =</span> <span class="fu">factor</span>(</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>      Variable,</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Audiogram_PCA"</span>, <span class="st">"Glimpsing"</span>, <span class="st">"WorkingMemory_PCA"</span>, <span class="st">"Vocabulary"</span>),</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Audiogram PCA"</span>, <span class="st">"Glimpsing (z-score)"</span>, <span class="st">"Working Memory PCA"</span>, <span class="st">"Vocab.Knowledge -z-score"</span>)</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(<span class="at">x =</span> HearGroup, <span class="at">y =</span> Value)) <span class="sc">+</span></span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">trim =</span> <span class="cn">FALSE</span>, <span class="at">fill =</span> <span class="st">"grey80"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.12</span>, <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> median, <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Variable, <span class="at">scales =</span> <span class="st">"free_y"</span>, <span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Violin plots for the four predictor variables"</span></span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="images/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="replication-analysis-3-inferential-analysis-predictor-importance" class="level3">
+<h3 class="anchored" data-anchor-id="replication-analysis-3-inferential-analysis-predictor-importance">Replication analysis 3: Inferential analysis: Predictor importance</h3>
+<p>Now I am going to replicate out of all predictors, which one contributes most to explaining speech recognition. The original study used dominance analysis to determine the relative contribution of the above four predictor variables to speech recognition&nbsp;</p>
+<p>Dominance analysis measures the importance of each predictor variable as defined by the amount of variance accounted for that variable alone and in all possible combinations of the other predictor variables from the linear regression model.This dominance analysis was conducted for each of the nine outcome variables (three SRTs for three datasets).&nbsp;</p>
+<p>so: Examining key predictors: Audiogram PCA, glimpsing, working memory, and vocabulary relate to speech recognition outcomes.</p>
+<p>The method they had used were,</p>
+<ul>
+<li><p>Multiple regression models were constructed for each dataset and speech recognition threshold (20%, 50%, and 80%). ​</p></li>
+<li><p>The dependent variable was speech recognition performance, and the independent variables were the four predictors.</p></li>
+</ul>
+<p>Thinking about how they calculated the dominance, i saw that it involved calculating the contribution of each predictor variable to the explained variance in the dependent variable individually as well as in combination.Then an average across all predictor subsets. I have to repeat this for all predictors, two groups and across all SRTs and all datasets. So better to write a. function to do this.</p>
+<p>This is the most hard part for me in this assignment, because the dominance analysis was a great deal in this study, and was also computationally taking time to do individually one by one.</p>
+<p>I totally referred the study they have told which is Humes et al., 2021 - <a href="https://doi.org/10.3389/fnagi.2021.702739" class="uri">https://doi.org/10.3389/fnagi.2021.702739</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># writing a fucntion to compute the dominance</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>compute_dominance <span class="ot">&lt;-</span> <span class="cf">function</span>(data, outcome) {</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  predictors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Audiogram_PCA"</span>, <span class="st">"Glimpsing"</span>, </span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"WorkingMemory_PCA"</span>, <span class="st">"Vocabulary"</span>)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Above are the four predictir variables we are considering</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  all_subsets <span class="ot">&lt;-</span> <span class="fu">unlist</span>(</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(predictors), <span class="cf">function</span>(x) {</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">combn</span>(predictors, x, <span class="at">simplify =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>    }),</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">recursive =</span> <span class="cn">FALSE</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># The above step actually is for creating all the combinations of predictor variable subsets.     because the dominance value calculation they did was based on all possible regression      submodels.</span></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute R² for all subsets (every combination) I defined above, and i can store in results data frame.</span></span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (subset <span class="cf">in</span> all_subsets) {</span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>    formula <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(</span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste</span>(outcome, <span class="st">"~"</span>, <span class="fu">paste</span>(subset, <span class="at">collapse =</span> <span class="st">" + "</span>))</span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a>    model <span class="ot">&lt;-</span> <span class="fu">lm</span>(formula, <span class="at">data =</span> data) <span class="co"># here is we use the multiple regression models</span></span>
+<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a>    results <span class="ot">&lt;-</span> <span class="fu">rbind</span>(results, <span class="fu">data.frame</span>(</span>
+<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">Predictors =</span> <span class="fu">paste</span>(subset, <span class="at">collapse =</span> <span class="st">","</span>),</span>
+<span id="cb33-32"><a href="#cb33-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">R2 =</span> <span class="fu">summary</span>(model)<span class="sc">$</span>r.squared</span>
+<span id="cb33-33"><a href="#cb33-33" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb33-34"><a href="#cb33-34" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb33-35"><a href="#cb33-35" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-36"><a href="#cb33-36" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Creating an empty table to store dominance values For each predictor, I will calculate its    average contribution to R² across all possible subsets</span></span>
+<span id="cb33-37"><a href="#cb33-37" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-38"><a href="#cb33-38" aria-hidden="true" tabindex="-1"></a>  dominance <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Predictor =</span> predictors, <span class="at">Contribution =</span> <span class="dv">0</span>)</span>
+<span id="cb33-39"><a href="#cb33-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-40"><a href="#cb33-40" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (pred <span class="cf">in</span> predictors) { <span class="co"># I am trying to store calculated contribution values now</span></span>
+<span id="cb33-41"><a href="#cb33-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-42"><a href="#cb33-42" aria-hidden="true" tabindex="-1"></a>    contrib_values <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb33-43"><a href="#cb33-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-44"><a href="#cb33-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (subset <span class="cf">in</span> all_subsets) {</span>
+<span id="cb33-45"><a href="#cb33-45" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb33-46"><a href="#cb33-46" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="sc">!</span>(pred <span class="sc">%in%</span> subset)) <span class="cf">next</span></span>
+<span id="cb33-47"><a href="#cb33-47" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb33-48"><a href="#cb33-48" aria-hidden="true" tabindex="-1"></a>      subset_without <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(subset, pred) <span class="co"># I remember using this for the wordplay game assignment. I use it here to consider different subsets. </span></span>
+<span id="cb33-49"><a href="#cb33-49" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb33-50"><a href="#cb33-50" aria-hidden="true" tabindex="-1"></a>      formula_with <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(</span>
+<span id="cb33-51"><a href="#cb33-51" aria-hidden="true" tabindex="-1"></a>        <span class="fu">paste</span>(outcome, <span class="st">"~"</span>, <span class="fu">paste</span>(subset, <span class="at">collapse =</span> <span class="st">" + "</span>))</span>
+<span id="cb33-52"><a href="#cb33-52" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb33-53"><a href="#cb33-53" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb33-54"><a href="#cb33-54" aria-hidden="true" tabindex="-1"></a>      model_with <span class="ot">&lt;-</span> <span class="fu">lm</span>(formula_with, <span class="at">data =</span> data)</span>
+<span id="cb33-55"><a href="#cb33-55" aria-hidden="true" tabindex="-1"></a>      r2_with <span class="ot">&lt;-</span> <span class="fu">summary</span>(model_with)<span class="sc">$</span>r.squared</span>
+<span id="cb33-56"><a href="#cb33-56" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb33-57"><a href="#cb33-57" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">length</span>(subset_without) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb33-58"><a href="#cb33-58" aria-hidden="true" tabindex="-1"></a>        r2_without <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb33-59"><a href="#cb33-59" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb33-60"><a href="#cb33-60" aria-hidden="true" tabindex="-1"></a>        formula_without <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(</span>
+<span id="cb33-61"><a href="#cb33-61" aria-hidden="true" tabindex="-1"></a>          <span class="fu">paste</span>(outcome, <span class="st">"~"</span>, <span class="fu">paste</span>(subset_without, <span class="at">collapse =</span> <span class="st">" + "</span>))</span>
+<span id="cb33-62"><a href="#cb33-62" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb33-63"><a href="#cb33-63" aria-hidden="true" tabindex="-1"></a>        model_without <span class="ot">&lt;-</span> <span class="fu">lm</span>(formula_without, <span class="at">data =</span> data)</span>
+<span id="cb33-64"><a href="#cb33-64" aria-hidden="true" tabindex="-1"></a>        r2_without <span class="ot">&lt;-</span> <span class="fu">summary</span>(model_without)<span class="sc">$</span>r.squared </span>
+<span id="cb33-65"><a href="#cb33-65" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb33-66"><a href="#cb33-66" aria-hidden="true" tabindex="-1"></a>      <span class="co"># extracting r2 from each model summary above for predictor subsets with and both without that predictor in the subset</span></span>
+<span id="cb33-67"><a href="#cb33-67" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb33-68"><a href="#cb33-68" aria-hidden="true" tabindex="-1"></a>      contrib_values <span class="ot">&lt;-</span> <span class="fu">c</span>(contrib_values, r2_with <span class="sc">-</span> r2_without)</span>
+<span id="cb33-69"><a href="#cb33-69" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb33-70"><a href="#cb33-70" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-71"><a href="#cb33-71" aria-hidden="true" tabindex="-1"></a>    dominance<span class="sc">$</span>Contribution[dominance<span class="sc">$</span>Predictor <span class="sc">==</span> pred] <span class="ot">&lt;-</span> <span class="fu">mean</span>(contrib_values)</span>
+<span id="cb33-72"><a href="#cb33-72" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb33-73"><a href="#cb33-73" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-74"><a href="#cb33-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(dominance)</span>
+<span id="cb33-75"><a href="#cb33-75" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>I want to test this function.”D1_SRT50_ESTOI” is one of the SRT columns i have in the dataset, So i will test just for that.its dataset 1, SRT50.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>df_ONH <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(HearGroup <span class="sc">==</span> <span class="st">"ONH"</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>dominance_test <span class="ot">&lt;-</span> <span class="fu">compute_dominance</span>(df_ONH, <span class="st">"D1_SRT50_ESTOI"</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>dominance_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Predictor Contribution
+1     Audiogram_PCA  0.231144245
+2         Glimpsing  0.008554378
+3 WorkingMemory_PCA  0.133605883
+4        Vocabulary  0.247175008</code></pre>
+</div>
+</div>
+<p>Looking at the figure 04 of the original study, the calculated values seems to be nearly good.</p>
+<p>so, now running for all SRTs and datasets</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>outcomes <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"D1_SRT20_ESTOI"</span>, <span class="st">"D1_SRT50_ESTOI"</span>, <span class="st">"D1_SRT80_ESTOI"</span>,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"D2_SRT20_ESTOI"</span>, <span class="st">"D2_SRT50_ESTOI"</span>, <span class="st">"D2_SRT80_ESTOI"</span>,</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"D3_SRT20_ESTOI"</span>, <span class="st">"D3_SRT50_ESTOI"</span>, <span class="st">"D3_SRT80_ESTOI"</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>run_all <span class="ot">&lt;-</span> <span class="cf">function</span>(data, group_name) {</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (out <span class="cf">in</span> outcomes) {</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>    dom <span class="ot">&lt;-</span> <span class="fu">compute_dominance</span>(data, out)</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>    dom<span class="sc">$</span>Outcome <span class="ot">&lt;-</span> out</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>    dom<span class="sc">$</span>Group <span class="ot">&lt;-</span> group_name</span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>    results <span class="ot">&lt;-</span> <span class="fu">rbind</span>(results, dom)</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(results)</span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>dom_ONH <span class="ot">&lt;-</span> <span class="fu">run_all</span>(df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(HearGroup <span class="sc">==</span> <span class="st">"ONH"</span>), <span class="st">"ONH"</span>)</span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>dom_OHI <span class="ot">&lt;-</span> <span class="fu">run_all</span>(df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(HearGroup <span class="sc">==</span> <span class="st">"OHI"</span>), <span class="st">"OHI"</span>)</span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a>dominance_all <span class="ot">&lt;-</span> <span class="fu">rbind</span>(dom_OHI, dom_ONH)</span>
+<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a>dominance_all</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           Predictor Contribution        Outcome Group
+1      Audiogram_PCA  0.170757416 D1_SRT20_ESTOI   OHI
+2          Glimpsing  0.272869615 D1_SRT20_ESTOI   OHI
+3  WorkingMemory_PCA  0.142282935 D1_SRT20_ESTOI   OHI
+4         Vocabulary  0.098470746 D1_SRT20_ESTOI   OHI
+5      Audiogram_PCA  0.125253731 D1_SRT50_ESTOI   OHI
+6          Glimpsing  0.299643961 D1_SRT50_ESTOI   OHI
+7  WorkingMemory_PCA  0.097406303 D1_SRT50_ESTOI   OHI
+8         Vocabulary  0.085124498 D1_SRT50_ESTOI   OHI
+9      Audiogram_PCA  0.051629285 D1_SRT80_ESTOI   OHI
+10         Glimpsing  0.258552434 D1_SRT80_ESTOI   OHI
+11 WorkingMemory_PCA  0.061746131 D1_SRT80_ESTOI   OHI
+12        Vocabulary  0.073027140 D1_SRT80_ESTOI   OHI
+13     Audiogram_PCA  0.299997740 D2_SRT20_ESTOI   OHI
+14         Glimpsing  0.244292676 D2_SRT20_ESTOI   OHI
+15 WorkingMemory_PCA  0.147006371 D2_SRT20_ESTOI   OHI
+16        Vocabulary  0.033524958 D2_SRT20_ESTOI   OHI
+17     Audiogram_PCA  0.381269234 D2_SRT50_ESTOI   OHI
+18         Glimpsing  0.238123169 D2_SRT50_ESTOI   OHI
+19 WorkingMemory_PCA  0.135930735 D2_SRT50_ESTOI   OHI
+20        Vocabulary  0.046573616 D2_SRT50_ESTOI   OHI
+21     Audiogram_PCA  0.386857633 D2_SRT80_ESTOI   OHI
+22         Glimpsing  0.203084546 D2_SRT80_ESTOI   OHI
+23 WorkingMemory_PCA  0.107534041 D2_SRT80_ESTOI   OHI
+24        Vocabulary  0.072442057 D2_SRT80_ESTOI   OHI
+25     Audiogram_PCA  0.282108608 D3_SRT20_ESTOI   OHI
+26         Glimpsing  0.205337216 D3_SRT20_ESTOI   OHI
+27 WorkingMemory_PCA  0.101174280 D3_SRT20_ESTOI   OHI
+28        Vocabulary  0.048709128 D3_SRT20_ESTOI   OHI
+29     Audiogram_PCA  0.294555962 D3_SRT50_ESTOI   OHI
+30         Glimpsing  0.184629537 D3_SRT50_ESTOI   OHI
+31 WorkingMemory_PCA  0.153365903 D3_SRT50_ESTOI   OHI
+32        Vocabulary  0.107798058 D3_SRT50_ESTOI   OHI
+33     Audiogram_PCA  0.228809138 D3_SRT80_ESTOI   OHI
+34         Glimpsing  0.126891855 D3_SRT80_ESTOI   OHI
+35 WorkingMemory_PCA  0.174746065 D3_SRT80_ESTOI   OHI
+36        Vocabulary  0.153346734 D3_SRT80_ESTOI   OHI
+37     Audiogram_PCA  0.159092188 D1_SRT20_ESTOI   ONH
+38         Glimpsing  0.009132517 D1_SRT20_ESTOI   ONH
+39 WorkingMemory_PCA  0.079049756 D1_SRT20_ESTOI   ONH
+40        Vocabulary  0.121393694 D1_SRT20_ESTOI   ONH
+41     Audiogram_PCA  0.231144245 D1_SRT50_ESTOI   ONH
+42         Glimpsing  0.008554378 D1_SRT50_ESTOI   ONH
+43 WorkingMemory_PCA  0.133605883 D1_SRT50_ESTOI   ONH
+44        Vocabulary  0.247175008 D1_SRT50_ESTOI   ONH
+45     Audiogram_PCA  0.257131585 D1_SRT80_ESTOI   ONH
+46         Glimpsing  0.013387739 D1_SRT80_ESTOI   ONH
+47 WorkingMemory_PCA  0.136549321 D1_SRT80_ESTOI   ONH
+48        Vocabulary  0.263222327 D1_SRT80_ESTOI   ONH
+49     Audiogram_PCA  0.217474162 D2_SRT20_ESTOI   ONH
+50         Glimpsing  0.049380302 D2_SRT20_ESTOI   ONH
+51 WorkingMemory_PCA  0.065156292 D2_SRT20_ESTOI   ONH
+52        Vocabulary  0.104494697 D2_SRT20_ESTOI   ONH
+53     Audiogram_PCA  0.315983867 D2_SRT50_ESTOI   ONH
+54         Glimpsing  0.016178195 D2_SRT50_ESTOI   ONH
+55 WorkingMemory_PCA  0.109468660 D2_SRT50_ESTOI   ONH
+56        Vocabulary  0.223369668 D2_SRT50_ESTOI   ONH
+57     Audiogram_PCA  0.226452290 D2_SRT80_ESTOI   ONH
+58         Glimpsing  0.010483217 D2_SRT80_ESTOI   ONH
+59 WorkingMemory_PCA  0.098294360 D2_SRT80_ESTOI   ONH
+60        Vocabulary  0.218930233 D2_SRT80_ESTOI   ONH
+61     Audiogram_PCA  0.395515721 D3_SRT20_ESTOI   ONH
+62         Glimpsing  0.025534589 D3_SRT20_ESTOI   ONH
+63 WorkingMemory_PCA  0.110461832 D3_SRT20_ESTOI   ONH
+64        Vocabulary  0.189715198 D3_SRT20_ESTOI   ONH
+65     Audiogram_PCA  0.278830413 D3_SRT50_ESTOI   ONH
+66         Glimpsing  0.007828411 D3_SRT50_ESTOI   ONH
+67 WorkingMemory_PCA  0.195959073 D3_SRT50_ESTOI   ONH
+68        Vocabulary  0.236845809 D3_SRT50_ESTOI   ONH
+69     Audiogram_PCA  0.160032626 D3_SRT80_ESTOI   ONH
+70         Glimpsing  0.009376389 D3_SRT80_ESTOI   ONH
+71 WorkingMemory_PCA  0.251203567 D3_SRT80_ESTOI   ONH
+72        Vocabulary  0.187290621 D3_SRT80_ESTOI   ONH</code></pre>
+</div>
+</div>
+<p><u>Computing mean dominance per predictor (across datasets + SRTs)</u></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>summary_dominance_analysis <span class="ot">&lt;-</span> dominance_all <span class="sc">%&gt;%</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Group, Predictor) <span class="sc">%&gt;%</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_Contribution =</span> <span class="fu">mean</span>(Contribution),</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD =</span> <span class="fu">sd</span>(Contribution)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has regrouped the output.
+ℹ Summaries were computed grouped by Group and Predictor.
+ℹ Output is grouped by Group.
+ℹ Use `summarise(.groups = "drop_last")` to silence this message.
+ℹ Use `summarise(.by = c(Group, Predictor))` for per-operation grouping
+  (`?dplyr::dplyr_by`) instead.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>summary_dominance_analysis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 4
+# Groups:   Group [2]
+  Group Predictor         Mean_Contribution     SD
+  &lt;chr&gt; &lt;chr&gt;                         &lt;dbl&gt;  &lt;dbl&gt;
+1 OHI   Audiogram_PCA                0.247  0.113 
+2 OHI   Glimpsing                    0.226  0.0520
+3 OHI   Vocabulary                   0.0799 0.0369
+4 OHI   WorkingMemory_PCA            0.125  0.0350
+5 ONH   Audiogram_PCA                0.249  0.0748
+6 ONH   Glimpsing                    0.0167 0.0135
+7 ONH   Vocabulary                   0.199  0.0548
+8 ONH   WorkingMemory_PCA            0.131  0.0588</code></pre>
+</div>
+</div>
+<p><u>Ranking predictors</u></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>summary_dominance_analysis_table<span class="ot">&lt;-</span> summary_dominance_analysis <span class="sc">%&gt;%</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Group) <span class="sc">%&gt;%</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Group, <span class="fu">desc</span>(Mean_Contribution))</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>summary_dominance_analysis_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 4
+# Groups:   Group [2]
+  Group Predictor         Mean_Contribution     SD
+  &lt;chr&gt; &lt;chr&gt;                         &lt;dbl&gt;  &lt;dbl&gt;
+1 OHI   Audiogram_PCA                0.247  0.113 
+2 OHI   Glimpsing                    0.226  0.0520
+3 OHI   WorkingMemory_PCA            0.125  0.0350
+4 OHI   Vocabulary                   0.0799 0.0369
+5 ONH   Audiogram_PCA                0.249  0.0748
+6 ONH   Vocabulary                   0.199  0.0548
+7 ONH   WorkingMemory_PCA            0.131  0.0588
+8 ONH   Glimpsing                    0.0167 0.0135</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>dominance_all <span class="ot">&lt;-</span> dominance_all <span class="sc">%&gt;%</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Dataset =</span> <span class="fu">substr</span>(Outcome, <span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRT =</span> <span class="fu">case_when</span>(</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">grepl</span>(<span class="st">"20"</span>, Outcome) <span class="sc">~</span> <span class="st">"SRT20"</span>,</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">grepl</span>(<span class="st">"50"</span>, Outcome) <span class="sc">~</span> <span class="st">"SRT50"</span>,</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">grepl</span>(<span class="st">"80"</span>, Outcome) <span class="sc">~</span> <span class="st">"SRT80"</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now I am trying to plot, one predictor variable by one.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>aud_plot <span class="ot">&lt;-</span> dominance_all <span class="sc">%&gt;%</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Predictor <span class="sc">==</span> <span class="st">"Audiogram_PCA"</span>)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>aud_plot<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">factor</span>(aud_plot<span class="sc">$</span>Group, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"ONH"</span>, <span class="st">"OHI"</span>))</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(aud_plot, <span class="fu">aes</span>(<span class="at">x =</span> SRT, <span class="at">y =</span> Contribution, <span class="at">fill =</span> Dataset)) <span class="sc">+</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Group) <span class="sc">+</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="images/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>glmp_plot <span class="ot">&lt;-</span> dominance_all <span class="sc">%&gt;%</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Predictor <span class="sc">==</span> <span class="st">"Glimpsing"</span>)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>glmp_plot<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">factor</span>(glmp_plot<span class="sc">$</span>Group, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"ONH"</span>, <span class="st">"OHI"</span>))</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(glmp_plot, <span class="fu">aes</span>(<span class="at">x =</span> SRT, <span class="at">y =</span> Contribution, <span class="at">fill =</span> Dataset)) <span class="sc">+</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Group) <span class="sc">+</span></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Glimpsing"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="images/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>wm_plot <span class="ot">&lt;-</span> dominance_all <span class="sc">%&gt;%</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Predictor <span class="sc">==</span> <span class="st">"WorkingMemory_PCA"</span>)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>wm_plot<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">factor</span>(wm_plot<span class="sc">$</span>Group, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"ONH"</span>, <span class="st">"OHI"</span>))</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(wm_plot, <span class="fu">aes</span>(<span class="at">x =</span> SRT, <span class="at">y =</span> Contribution, <span class="at">fill =</span> Dataset)) <span class="sc">+</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Group) <span class="sc">+</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Working Memory"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="images/unnamed-chunk-24-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>voc_plot <span class="ot">&lt;-</span> dominance_all <span class="sc">%&gt;%</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Predictor <span class="sc">==</span> <span class="st">"Vocabulary"</span>)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>voc_plot<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">factor</span>(voc_plot<span class="sc">$</span>Group, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"ONH"</span>, <span class="st">"OHI"</span>))</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(voc_plot, <span class="fu">aes</span>(<span class="at">x =</span> SRT, <span class="at">y =</span> Contribution, <span class="at">fill =</span> Dataset)) <span class="sc">+</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Group) <span class="sc">+</span></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Vocabulary Knowledge"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="images/unnamed-chunk-24-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="replication-analysis-4-second-descriptive-analysis-correlation-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="replication-analysis-4-second-descriptive-analysis-correlation-analysis">Replication analysis 4: Second descriptive analysis: Correlation analysis</h3>
+<p>Finally, I do a correlation analysis to examine relationships between predictor variables and speech recognition outcomes. This is different from the initial correlation analysis I did in initial data visualzation, this analysis os predictor variables vs the SRTs, not between each predictor variables.</p>
+<p>This analysis aims to replicate patterns reported in the original study, they have used not only above 4 variables but all below.</p>
+<p>Auditory-related PCA variables: Audiogram_PCA, SpeechModulation_PCA, EpisodicMemory_PCA, Interference_PCA Cognitive:WorkingMemory_PCA, Vocabulary, LinguisticClosure, Glimpsing</p>
+<p>going through all coulmns related:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>HearGroup <span class="ot">&lt;-</span> <span class="fu">factor</span>(df<span class="sc">$</span>HearGroup, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"ONH"</span>, <span class="st">"OHI"</span>))</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="co"># predictor variables used in the paper</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>predictor_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Audiogram_PCA"</span>,</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SpeechModulation_PCA"</span>,</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"WorkingMemory_PCA"</span>,</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"EpisodicMemory_PCA"</span>,</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Interference_PCA"</span>,</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Vocabulary"</span>,</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"LinguisticClosure"</span>,</span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Glimpsing"</span></span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a><span class="co"># all experimental speech outcome variables</span></span>
+<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a>outcome_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"D1_SRT20_ESTOI"</span>, <span class="st">"D1_SRT50_ESTOI"</span>, <span class="st">"D1_SRT80_ESTOI"</span>,</span>
+<span id="cb49-18"><a href="#cb49-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">"D2_SRT20_ESTOI"</span>, <span class="st">"D2_SRT50_ESTOI"</span>, <span class="st">"D2_SRT80_ESTOI"</span>,</span>
+<span id="cb49-19"><a href="#cb49-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">"D3_SRT20_ESTOI"</span>, <span class="st">"D3_SRT50_ESTOI"</span>, <span class="st">"D3_SRT80_ESTOI"</span>,</span>
+<span id="cb49-20"><a href="#cb49-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Overall_PCA (Experimental)"</span></span>
+<span id="cb49-21"><a href="#cb49-21" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If I type individually for all 3 SRTs and across three datasets this will be a long code, so making a function to do so,</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>get_cor_table <span class="ot">&lt;-</span> <span class="cf">function</span>(data, predictors, outcomes, group_name) {</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (pred <span class="cf">in</span> predictors) {</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (out <span class="cf">in</span> outcomes) {</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>      r_value <span class="ot">&lt;-</span> <span class="fu">cor</span>(data[[pred]], data[[out]], <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>      results <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>        results,</span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">data.frame</span>(</span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">Group =</span> group_name,</span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a>          <span class="at">Predictor =</span> pred,</span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a>          <span class="at">Outcome =</span> out,</span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>          <span class="at">Correlation =</span> r_value</span>
+<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb50-19"><a href="#cb50-19" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb50-20"><a href="#cb50-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb50-21"><a href="#cb50-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb50-22"><a href="#cb50-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(results)</span>
+<span id="cb50-23"><a href="#cb50-23" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>cor_onh <span class="ot">&lt;-</span> <span class="fu">get_cor_table</span>(</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(HearGroup <span class="sc">==</span> <span class="st">"ONH"</span>),</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">predictors =</span> predictor_vars,</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">outcomes =</span> outcome_vars,</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">group_name =</span> <span class="st">"ONH"</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>cor_ohi <span class="ot">&lt;-</span> <span class="fu">get_cor_table</span>(</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(HearGroup <span class="sc">==</span> <span class="st">"OHI"</span>),</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">predictors =</span> predictor_vars,</span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">outcomes =</span> outcome_vars,</span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">group_name =</span> <span class="st">"OHI"</span></span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a>correlation_of_all <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(cor_onh, cor_ohi)</span>
+<span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-17"><a href="#cb51-17" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(correlation_of_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Group     Predictor        Outcome Correlation
+1   ONH Audiogram_PCA D1_SRT20_ESTOI   0.4283421
+2   ONH Audiogram_PCA D1_SRT50_ESTOI   0.5161147
+3   ONH Audiogram_PCA D1_SRT80_ESTOI   0.5490233
+4   ONH Audiogram_PCA D2_SRT20_ESTOI   0.5157464
+5   ONH Audiogram_PCA D2_SRT50_ESTOI   0.6041048
+6   ONH Audiogram_PCA D2_SRT80_ESTOI   0.4944739</code></pre>
+</div>
+</div>
+<p>Since I need to see the whole table to compare it with the results from their study,</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>correlation_table_wide <span class="ot">&lt;-</span> correlation_of_all <span class="sc">%&gt;%</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> Outcome,</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> Correlation</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>correlation_table_wide</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 16 × 12
+   Group Predictor   D1_SRT20_ESTOI D1_SRT50_ESTOI D1_SRT80_ESTOI D2_SRT20_ESTOI
+   &lt;chr&gt; &lt;chr&gt;                &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;
+ 1 ONH   Audiogram_…         0.428           0.516         0.549          0.516 
+ 2 ONH   SpeechModu…         0.141           0.247         0.244          0.171 
+ 3 ONH   WorkingMem…        -0.370          -0.491        -0.496         -0.325 
+ 4 ONH   EpisodicMe…         0.0335         -0.184        -0.309         -0.0639
+ 5 ONH   Interferen…         0.140           0.171         0.215          0.251 
+ 6 ONH   Vocabulary         -0.465          -0.642        -0.662         -0.443 
+ 7 ONH   Linguistic…         0.454           0.419         0.363          0.198 
+ 8 ONH   Glimpsing           0.141           0.135         0.175          0.291 
+ 9 OHI   Audiogram_…         0.640           0.563         0.405          0.744 
+10 OHI   SpeechModu…        -0.202          -0.293        -0.326         -0.243 
+11 OHI   WorkingMem…        -0.669          -0.584        -0.475         -0.611 
+12 OHI   EpisodicMe…         0.211           0.121         0.0523         0.141 
+13 OHI   Interferen…        -0.322          -0.302        -0.287         -0.422 
+14 OHI   Vocabulary         -0.599          -0.553        -0.488         -0.376 
+15 OHI   Linguistic…        -0.116          -0.155        -0.152         -0.116 
+16 OHI   Glimpsing          -0.741          -0.738        -0.659         -0.674 
+# ℹ 6 more variables: D2_SRT50_ESTOI &lt;dbl&gt;, D2_SRT80_ESTOI &lt;dbl&gt;,
+#   D3_SRT20_ESTOI &lt;dbl&gt;, D3_SRT50_ESTOI &lt;dbl&gt;, D3_SRT80_ESTOI &lt;dbl&gt;,
+#   `Overall_PCA (Experimental)` &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="discussion-and-reflection" class="level2">
+<h2 class="anchored" data-anchor-id="discussion-and-reflection">Discussion and Reflection</h2>
+<section id="comparison-to-the-original-paper" class="level3">
+<h3 class="anchored" data-anchor-id="comparison-to-the-original-paper">1) Comparison to the original paper</h3>
+</section>
+<section id="comparison-of-analysis-1-descriptive-statistics" class="level3">
+<h3 class="anchored" data-anchor-id="comparison-of-analysis-1-descriptive-statistics"><u>Comparison of analysis 1: Descriptive statistics</u></h3>
+<p>1) The descriptive statistics obtained in this part closely match with the patterns reported in the original study.</p>
+<table class="caption-top table">
+<caption>Comparison of Analysis 1: Descriptive Statistics</caption>
+<thead>
+<tr class="header">
+<th><h4 id="reported-participant-characteristics-in-the-original-study" class="anchored">Reported participant characteristics in the original study</h4></th>
+<th><h4 id="replicated-results" class="anchored">Replicated results</h4></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>The original study reported that the ONH group had a mean age of approximately 67 years (range: 60–74 years), while the OHI group had a higher mean age of approximately 72 years (range: 60–85 years).</td>
+<td>The replicated results using their provided dataset showed a mean age of 67.4 years for the ONH group and 72.2 years for the OHI group.<a href="#replication-analysis-1-descriptive-statistics">Replication analysis 1: Descriptive statistics</a></td>
+</tr>
+<tr class="even">
+<td>In terms of gender distribution, the ONH group consisted of 17 females and 3 males, whereas the OHI group included 13 females and 7 males.</td>
+<td>The replication showed gender distribution is also identical to that reported in the original study, with 17 females and 3 males in the ONH group, and 13 females and 7 males in the OHI group.<a href="#replication-analysis-1-descriptive-statistics">Replication analysis 1: Descriptive statistics</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>These results indicate that the descriptive statistics for participant characteristics were successfully replicated with no discrepancies.</strong></p>
+<p>2) The audiogram visualization also successfully replicates the main pattern shown in Fig. 1 of the original study.<a href="#frequency-by-frequency-mean-audiogram-from-raw-audiometric-threshold-columns-like-250hz-500hz-1000hz-and-so-on-from-the-auditoryvariables-sheet.">Frequency by frequency mean audiogram from raw audiometric threshold columns like 250Hz, 500Hz, 1000Hz and so on from the “AuditoryVariables” sheet.</a></p>
+<section id="original-study---fig-1.-mean-audiograms-for-the-two-listener-groups" class="level4">
+<h4 class="anchored" data-anchor-id="original-study---fig-1.-mean-audiograms-for-the-two-listener-groups">Original Study - <strong>Fig 1. Mean audiograms for the two listener groups</strong></h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Mean%20audiograms%20for%20the%20two%20listener%20groups_original.png" class="img-fluid figure-img" width="400"></p>
+<figcaption>Mean audiograms for the two listener groups</figcaption>
+</figure>
+</div>
+</section>
+<section id="replicated-mean-audiogram-values-for-the-two-groups" class="level4">
+<h4 class="anchored" data-anchor-id="replicated-mean-audiogram-values-for-the-two-groups">Replicated mean audiogram values for the two groups</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Replicated%20mean%20audiogram.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>Replicaed mean audiograms for the two listener groups</figcaption>
+</figure>
+</div>
+<p><strong>The audiogram visualization also successfully replicates the main pattern shown in Fig. 1 of the original study. In both the original and replicated figures, the OHI group shows elevated hearing thresholds across frequencies compared to the ONH group, with the largest differences at higher frequencies. The overall shape and trend of the curves are highly consistent between the two figures.</strong></p>
+<p>No specific challenges were faced in this section, because the column names were clear in the data set in what to choose other than the additional preprocessing required for handling multi level headers in the auditory variables data sheet.</p>
+</section>
+</section>
+<section id="comparison-of-analysis-2-descriptive-visualization" class="level3">
+<h3 class="anchored" data-anchor-id="comparison-of-analysis-2-descriptive-visualization"><u>Comparison of analysis 2: Descriptive visualization</u></h3>
+<p>The original study used violin plots (Fig. 3) to compare the distributions of four key predictor variables between ONH and OHI groups: Audiogram PCA, speech glimpsing, Working Memory PCA, and vocabulary knowledge.</p>
+<section id="original-study---fig-3.-violin-plots-for-the-four-predictor-variables" class="level4">
+<h4 class="anchored" data-anchor-id="original-study---fig-3.-violin-plots-for-the-four-predictor-variables">Original study - <strong>Fig 3.</strong> Violin plots for the four predictor variables</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Violin%20plots%20for%20the%20four%20predictor%20variables_original.jpg" class="img-fluid figure-img"></p>
+<figcaption>Violin plots for the four predictor variables</figcaption>
+</figure>
+</div>
+<p>In the original figure, we can see clear group differences for predictors. The OHI group showed higher Audiogram PCA values, indicating poorer hearing sensitivity, and lower glimpsing scores compared to the ONH group. Generally, the distributions of Working Memory PCA and vocabulary knowledge appeared similar across the two groups, suggesting comparable cognitive abilities.</p>
+</section>
+<section id="replicated-figure" class="level4">
+<h4 class="anchored" data-anchor-id="replicated-figure">Replicated figure</h4>
+<p>The replicated violin plots show very similar patterns.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Replicated%20violin%20plots%20for%20the%20four%20predictor%20variables.jpg" class="img-fluid figure-img"></p>
+<figcaption>Replicated violin plots for the four predictor variables.</figcaption>
+</figure>
+</div>
+<p>The replicated violin plots show very similar patterns. But,</p>
+<ul>
+<li><p>The original plots show a wider range and more spread in some variables (for example glimpsing and vocabulary).</p></li>
+<li><p>The replicated plots appear slightly more compressed, with narrower distributions.Additionally, the original figure includes statistical significance markers (example - *), which I could not obtain in the replicated plots.</p></li>
+<li><p>The visual styling also differs, including axis scaling, smoothing of violin shapes, and panel formatting.</p></li>
+</ul>
+<p>Reasons I think for the minor differences,</p>
+<p>1) Due to variations in plotting parameters and preprocessing steps.</p>
+<p>2) The original study does not specify details such as kernel density estimation settings, bandwidth selection, or scaling of variables prior to visualization. I think these factors influenced the shape and spread of violin plots.</p>
+<p><strong>Specific challenges Encountered</strong></p>
+<ul>
+<li><p>Selection of correct variables from the dataset, distinguishing between raw variables and PCA derived variables. The dataset contains multiple related variables.</p></li>
+<li><p>Another was matching the visual style of the original figure. The original study includes specific formatting choices such as panel layout, axis scaling, and annotations, which were not fully described in the methods section.</p></li>
+</ul>
+</section>
+</section>
+<section id="comparison-of-analysis-3-inferential-analysis-predictor-importance" class="level3">
+<h3 class="anchored" data-anchor-id="comparison-of-analysis-3-inferential-analysis-predictor-importance"><u>Comparison of analysis 3: Inferential analysis: Predictor importance</u></h3>
+<section id="original-study-results" class="level4">
+<h4 class="anchored" data-anchor-id="original-study-results">Original study results</h4>
+<ul>
+<li><p>According to the dominance analysis they did, the relative importance of predictor factors varied clearly between groups. For ONH listeners, glimpsing made very little contribution to speech identification, but, for OHI listeners, it was a strong predictor. On the other hand, vocabulary understanding contributed more to ONH listeners across all datasets.</p></li>
+<li><p>Dominance patterns differed depending on the type of dataset across situations. While audiogram measurements showed strong effect in noise masked settings, glimpsing showed total domination for OHI listeners in spectrally degraded speech. Overall, between 73% and 89% of the variance in speech recognition was explained by the chosen predictors.</p></li>
+<li><p>When averaged over datasets, audiogram PCA ( about 30%) and vocabulary knowledge ( about 22%) contributed the most to ONH listeners, while glimpsing (about 31%) and audiogram PCA (about 29%) contributed significantly to OHI listeners, with vocabulary knowledge having a smaller impact (about 11%).</p></li>
+<li><p>Working memory PCA had similar dominance for the two groups (ONH:13%; OHI: 18%). While the combination of these predictor variables explained a large amount of the variance on this general speech recognition component, linguistic processing factored heavily into ONH performance and access to speech information through glimpsing was a dominant factor for OHI (with minimal contribution for ONH).</p></li>
+</ul>
+<p><strong>Original study: Fig 4. Results of the dominance analysis</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Results%20of%20the%20dominance%20analysis_original.jpg" class="img-fluid figure-img" width="500"></p>
+<figcaption>Results of the dominance analysis</figcaption>
+</figure>
+</div>
+<p><strong>Replicated results</strong></p>
+<p>The main replicated results of the dominance analysis are in the “dominance_all” variable generated.</p>
+<p>From that I generated the final ranking of the predictors for the two groups. It is in the “summary_dominance_analysis_table” variable generated, which I also paste here below as a table, for easily see the results section I write.</p>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td><strong>Group</strong></td>
+<td><strong>Predictor variable</strong></td>
+<td><strong>Mean</strong></td>
+<td><strong>SD</strong></td>
+</tr>
+<tr class="even">
+<td>OHI</td>
+<td>WorkingMemory_PCA</td>
+<td>0.12457697</td>
+<td>0.03502737</td>
+</tr>
+<tr class="odd">
+<td>OHI</td>
+<td>Vocabulary</td>
+<td>0.07989077</td>
+<td>0.03688142</td>
+</tr>
+<tr class="even">
+<td>OHI</td>
+<td>Glimpsing</td>
+<td>0.22593611</td>
+<td>0.05201853</td>
+</tr>
+<tr class="odd">
+<td>OHI</td>
+<td>Audiogram_PCA</td>
+<td>0.24680431</td>
+<td>0.11348276</td>
+</tr>
+<tr class="even">
+<td>ONH</td>
+<td>Glimpsing</td>
+<td>0.01665064</td>
+<td>0.01347164</td>
+</tr>
+<tr class="odd">
+<td>ONH</td>
+<td>Vocabulary</td>
+<td>0.19915969</td>
+<td>0.05482451</td>
+</tr>
+<tr class="even">
+<td>ONH</td>
+<td>WorkingMemory_PCA</td>
+<td>0.13108319</td>
+<td>0.05883812</td>
+</tr>
+<tr class="odd">
+<td>ONH</td>
+<td>Audiogram_PCA</td>
+<td>0.24907301</td>
+<td>0.0747741</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>The replication’s dominance analysis results closely match the main conclusions from the original study.</p></li>
+<li><p>Audiogram PCA contributed the most to speech recognition for the ONH group, followed by vocabulary knowledge, working memory, and glimpsing.</p></li>
+<li><p>The original conclusion that ONH listeners rely very little on glimpsing-based auditory cues is strongly supported by the fact that the contribution of glimpsing was nearly negligible.</p></li>
+<li><p>Glimpsing was one of the most important predictors for the OHI group, and both Audiogram PCA and Glimpsing shown the greatest contributions.</p></li>
+<li><p>Vocabulary made the least impact, while working memory made a substantial one.</p></li>
+<li><p>The original study found that OHI listeners relied more on bottom-up auditory processing (glimpsing) than ONH listeners, which is consistent with this trend.</p></li>
+</ul>
+<p>Overall, although the exact numerical contributions differ slightly from those reported in the original study, the overall pattern of results and the relative importance of predictor variables are highly similar.</p>
+<p>I also plotted the results from my above variable tables: I am presenting only one for an example in comparison here (because I have done a visualization separately for analysis 2). Rest of the figures plotted from the results are also in above.</p>
+<p>The generated plots for the dominance analysis also revealed the same pattern I see in the original study.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Replicated%20results%20of%20the%20dominance%20analysis_1.png" class="img-fluid figure-img"></p>
+<figcaption>Example plot of the replicated results of the dominance analysis.</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="comparison-of-analysis-4-second-descriptive-analysis-correlation-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="comparison-of-analysis-4-second-descriptive-analysis-correlation-analysis"><u>Comparison of analysis 4: Second descriptive analysis: Correlation analysis</u></h3>
+<section id="original-study-table-3.-correlation-matrix-of-predictor-variables-with-the-three-speech-recognition-outcome-datasets.-i-am-not-going-to-paste-the-table-here-again-because-it-is-a-complex-table-i-will-just-paste-a-screenshot-here-this-is-not-a-figure-so-it-is-not-in-the-images-folder." class="level4">
+<h4 class="anchored" data-anchor-id="original-study-table-3.-correlation-matrix-of-predictor-variables-with-the-three-speech-recognition-outcome-datasets.-i-am-not-going-to-paste-the-table-here-again-because-it-is-a-complex-table-i-will-just-paste-a-screenshot-here-this-is-not-a-figure-so-it-is-not-in-the-images-folder.">Original study : <strong>Table 3. Correlation matrix of predictor variables with the three speech recognition outcome datasets. ( I am not going to paste the table here again because it is a complex table), I will just paste a screenshot here, this is not a figure, so it is not in the images folder.</strong></h4>
+<p><img src="images/clipboard-1403950580.png" class="img-fluid"></p>
+</section>
+<section id="replicated-results-are-in-the-cor_table_wide-variable-generated.-here-also-i-am-not-going-to-paste-the-table-here-again-because-it-is-a-complex-table-but-i-am-going-to-write-the-results-summary-below-i-will-show-a-preview-of-my-generated-results-as-follows-i-will-just-paste-a-screenshot-here-this-is-not-a-figure-so-it-is-not-in-the-images-folder." class="level4">
+<h4 class="anchored" data-anchor-id="replicated-results-are-in-the-cor_table_wide-variable-generated.-here-also-i-am-not-going-to-paste-the-table-here-again-because-it-is-a-complex-table-but-i-am-going-to-write-the-results-summary-below-i-will-show-a-preview-of-my-generated-results-as-follows-i-will-just-paste-a-screenshot-here-this-is-not-a-figure-so-it-is-not-in-the-images-folder.">Replicated results : Are in the “cor_table_wide” variable generated. ( Here also, <strong>( I am not going to paste the table here again because it is a complex table but I am going to write the results summary below), I will show a preview of my generated results as follows, I will just paste a screenshot here, this is not a figure, so it is not in the images folder.</strong></h4>
+<p><img src="images/clipboard-2758907485.png" class="img-fluid"></p>
+<ul>
+<li><p>The results of the correlation analysis closely resemble those presented in the original study. So the data analysis replication was successful completely. Similar patterns of connections between predictor variables and speech recognition outcomes were seen in both the ONH and OHI groups.</p></li>
+<li><p>Both groups’ audiogram PCA values were strongly positively correlated with speech recognition thresholds; the OHI group’s values were consistently higher. The main conclusion that OHI listeners rely more on auditory access mechanisms was confirmed by glimpsing, which revealed modest correlations for ONH but high negative correlations for OHI.</p></li>
+<li><p>Speech recognition results showed moderately negative associations with vocabulary and working memory PCA, especially in the ONH group, suggesting a higher dependence on cognitive-linguistic variables. Overall, the direction and relative strength of correlations are quite similar to those found in the original study, indicating that the primary findings were successfully replicated.</p></li>
+</ul>
+</section>
+</section>
+<section id="challenges-reasons-for-challenges-and-missing-details-in-the-original-study" class="level3">
+<h3 class="anchored" data-anchor-id="challenges-reasons-for-challenges-and-missing-details-in-the-original-study">Challenges/ reasons for challenges and missing details in the original study</h3>
+<p><u>Challenges</u></p>
+<ul>
+<li><p>The replication process ran into some difficulties.</p></li>
+<li><p>The dataset’s structure, which included multi-level headers and both raw and PCA derived variables, was one of the main challenges.</p></li>
+<li><p>Careful inspection was needed to find the right variables and match them with those utilized in the original study.</p></li>
+<li><p>The dominance analysis was very hard for me. The major reason was I was less familiarized with the type of overall analysis even though I was familiar with linear models.</p></li>
+<li><p>Additional data processing and restructure were also necessary to match the precise structure of reported outputs, such as correlation matrices and visualizations.</p></li>
+</ul>
+<p><u>Reasons for challenges</u></p>
+<ul>
+<li><p>The original study’s lack of methodological detail was a major contributing factor to these difficulties.</p></li>
+<li><p>Although the work provided a conceptual description of the broad analytical methodologies, it has not givem important implementation specifics such variable scaling, how to treat missing values, data preprocessing stages, and the precise computational procedures utilized for dominance analysis.</p></li>
+<li><p>Similarly, there was no reporting of display characteristics such as statistical annotations, scaling, and smoothing.</p></li>
+</ul>
+<p><u>Missing details in the original study</u></p>
+<ul>
+<li><p>Minor numerical and visual differences between the replicated and original results are may be explained by the need to make appropriate assumptions during replication due to the lack of these details.</p></li>
+<li><p>But I think I was able to obtain the general patterns shows that the replication was successful and replicated original study’s conclusion.</p></li>
+</ul>
+</section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<p>1) The study referred - <a href="https://doi.org/10.1371/journal.pone.0331487" class="uri">https://doi.org/10.1371/journal.pone.0331487</a></p>
+<p>2) Reference for the Dominance analysis - Humes et al.&nbsp;2021 <a href="https://doi.org/10.3389/fnagi.2021.702739" class="uri">https://doi.org/10.3389/fnagi.2021.702739</a></p>
+<p>3) Conceptual Introduction to Dominance Analysis - <a href="https://cran.r-project.org/web/packages/domir/vignettes/domir_basics.html">https://cran.rproject.org/web/packages/domir/vignettes/domir_basics.html</a></p>
+<p>4) How to Read an Audiogram - <a href="https://iowaprotocols.medicine.uiowa.edu/protocols/how-read-audiogram" class="uri">https://iowaprotocols.medicine.uiowa.edu/protocols/how-read-audiogram</a></p>
+<p>5) What is Correlation Analysis? A Definition and Explanation. - <a href="https://blog.flexmr.net/correlation-analysis-definition-exploration" class="uri">https://blog.flexmr.net/correlation-analysis-definition-exploration</a></p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
