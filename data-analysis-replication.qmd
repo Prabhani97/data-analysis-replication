@@ -344,7 +344,7 @@ Dominance analysis measures the importance of each predictor variable as defined
 
 so: Examining key predictors: Audiogram PCA, glimpsing, working memory, and vocabulary relate to speech recognition outcomes.
 
-The method they had used were,
+The method they had used were,,
 
 -   Multiple regression models were constructed for each dataset and speech recognition threshold (20%, 50%, and 80%). ​
 
