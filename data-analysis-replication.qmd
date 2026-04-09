@@ -786,13 +786,9 @@ The generated plots for the dominance analysis also revealed the same pattern I 
 
 ### [Comparison of analysis 4: Second descriptive analysis: Correlation analysis]{.underline}
 
-#### Original study : **Table 3. Correlation matrix of predictor variables with the three speech recognition outcome datasets. ( I am not going to paste the table here again because it is a complex table), I will just put a screenshot here, this is not a figure, so it is not in the images folder.**
+#### Original study : **Table 3. Correlation matrix of predictor variables with the three speech recognition outcome datasets. ( I am not going to paste the table here again because it is a complex table),** 
 
-![](images/clipboard-187466058.png)
-
-#### Replicated results : Are in the "cor_table_wide" variable generated. ( Here also, **( I am not going to paste the table here again because it is a complex table but I am going to write the results summary below), I will show a preview of my generated results as follows, I will just put a screenshot here, this is not a figure, so it is not in the images folder.**
-
-![](images/clipboard-3897672474.png)
+#### Replicated results : Are in the "cor_table_wide" variable generated. ( Here also, **( I am not going to paste the table here again because it is a complex table but I am going to write the results summary below),** 
 
 -   The results of the correlation analysis closely resemble those presented in the original study. So the data analysis replication was successful completely. Similar patterns of connections between predictor variables and speech recognition outcomes were seen in both the ONH and OHI groups.
 
