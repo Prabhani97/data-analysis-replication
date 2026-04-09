@@ -6,7 +6,7 @@ editor: visual
 ---
 
 ```{r}
-knitr::opts_chunk$set(fig.path = "images/")
+knitr::opts_chunk$set(fig.path = "images/Chunk_images")
 ```
 
 ## Introduction
