@@ -93,10 +93,15 @@ The data file contains participant level measurements auditory and cognitive pre
 
 ```{r}
 
-# Installing and loading the necessary libraries
+#| eval: false
+
+# Installed the packages "corrplot" and "combinat" and loading the necessary libraries
 
 install.packages("corrplot")
 install.packages("combinat")
+```
+
+```{r}
 
 library(readxl)
 library(tidyverse)
