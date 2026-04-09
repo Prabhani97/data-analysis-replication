@@ -830,7 +830,7 @@ The generated plots for the dominance analysis also revealed the same pattern I 
 
 ## References
 
-1\) The study referred - <https://doi.org/10.1371/journal.pone.0331487>
+1\) The study referred. - <https://doi.org/10.1371/journal.pone.0331487>
 
 2\) Reference for the Dominance analysis - Humes et al. 2021 <https://doi.org/10.3389/fnagi.2021.702739>
 
