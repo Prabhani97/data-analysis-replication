@@ -92,10 +92,8 @@ The data file contains participant level measurements auditory and cognitive pre
 1\) I will initially inspect the structure of the dataset and the relationships among variables. What I want to show is how these datasets contain large number of variables and why they expected redundancy among them and why it was necessary to first reduce the dimensionality of the data.
 
 ```{r}
-# Installed the packages "corrplot" and "combinat" and loading the necessary libraries
+# Installed the packages "corrplot" and "combinat" and loading the necessary libraries, I have removed installing code lines after installing
 
-install.packages("corrplot")
-install.packages("combinat")
 ```
 
 ```{r}
