@@ -33,13 +33,10 @@ Participants: 40 adults (20 with normal hearing (ONH) and 20 with hearing impair
 
 Predictor variables:
 
-+---------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
-| **Auditory measures**                                                           | Auditory and Cognitive measures                                                           |
-+=================================================================================+===========================================================================================+
-| Hearing thresholds                                                              | Tasks assessing working memory, episodic memory, processing speed, and executive function |
-+---------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
-| Speech related processing abilities (modulation detection and speech glimpsing) | Cognitive linguistic measures such as vocabulary knowledge and linguistic closure         |
-+---------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
+| **Auditory measures** | Auditory and Cognitive measures |
+|----|----|
+| Hearing thresholds | Tasks assessing working memory, episodic memory, processing speed, and executive function |
+| Speech related processing abilities (modulation detection and speech glimpsing) | Cognitive linguistic measures such as vocabulary knowledge and linguistic closure |
 
 Dataset
 
@@ -273,7 +270,7 @@ Now I can make a scatter kind of plot also using the sd_threshold just like in t
 The speciality is when plotting an audiogram we have to make the y axis reverse, because lower thresholds are the better and higher values.
 
 ```{r}
-ggplot(aud_summary, aes(x = Frequency, y = mean_threshold,
+ggplot(auditory_variables_summary, aes(x = Frequency, y = mean_threshold,
                         group = HearGroup, shape = HearGroup, linetype = HearGroup)) +
   geom_line(color = "black") +
   geom_point(color = "black", size = 2.5) +
@@ -684,11 +681,11 @@ correlation_table_wide
 
 #### Original Study - **Fig 1. Mean audiograms for the two listener groups**
 
-![Mean audiograms for the two listener groups](images/Mean audiograms for the two listener groups_original.png){width="400"}
+![Mean audiograms for the two listener groups](images/Mean%20audiograms%20for%20the%20two%20listener%20groups_original.png){width="400"}
 
 #### Replicated mean audiogram values for the two groups
 
-![Replicaed mean audiograms for the two listener groups](images/Replicated mean audiogram.png){width="500"}
+![Replicaed mean audiograms for the two listener groups](images/Replicated%20mean%20audiogram.png){width="500"}
 
 **The audiogram visualization also successfully replicates the main pattern shown in Fig. 1 of the original study. In both the original and replicated figures, the OHI group shows elevated hearing thresholds across frequencies compared to the ONH group, with the largest differences at higher frequencies. The overall shape and trend of the curves are highly consistent between the two figures.**
 
@@ -700,7 +697,7 @@ The original study used violin plots (Fig. 3) to compare the distributions of fo
 
 #### Original study - **Fig 3.** Violin plots for the four predictor variables
 
-![Violin plots for the four predictor variables](images/Violin plots for the four predictor variables_original.jpg)
+![Violin plots for the four predictor variables](images/Violin%20plots%20for%20the%20four%20predictor%20variables_original.jpg)
 
 In the original figure, we can see clear group differences for predictors. The OHI group showed higher Audiogram PCA values, indicating poorer hearing sensitivity, and lower glimpsing scores compared to the ONH group. Generally, the distributions of Working Memory PCA and vocabulary knowledge appeared similar across the two groups, suggesting comparable cognitive abilities.
 
@@ -708,7 +705,7 @@ In the original figure, we can see clear group differences for predictors. The O
 
 The replicated violin plots show very similar patterns.
 
-![Replicated violin plots for the four predictor variables.](images/Replicated violin plots for the four predictor variables.jpg)
+![Replicated violin plots for the four predictor variables.](images/Replicated%20violin%20plots%20for%20the%20four%20predictor%20variables.jpg)
 
 The replicated violin plots show very similar patterns. But,
 
@@ -744,7 +741,7 @@ Reasons I think for the minor differences,
 
 **Original study: Fig 4. Results of the dominance analysis**
 
-![Results of the dominance analysis](images/Results of the dominance analysis_original.jpg){width="500"}
+![Results of the dominance analysis](images/Results%20of%20the%20dominance%20analysis_original.jpg){width="500"}
 
 **Replicated results**
 
@@ -752,25 +749,17 @@ The main replicated results of the dominance analysis are in the "dominance_all"
 
 From that I generated the final ranking of the predictors for the two groups. It is in the "summary_dominance_analysis_table" variable generated, which I also paste here below as a table, for easily see the results section I write.
 
-+--------------+------------------------+--------------+--------------+
-| **Group**    | **Predictor variable** | **Mean**     | **SD**       |
-+--------------+------------------------+--------------+--------------+
-| OHI          | WorkingMemory_PCA      | 0.12457697   | 0.03502737   |
-+--------------+------------------------+--------------+--------------+
-| OHI          | Vocabulary             | 0.07989077   | 0.03688142   |
-+--------------+------------------------+--------------+--------------+
-| OHI          | Glimpsing              | 0.22593611   | 0.05201853   |
-+--------------+------------------------+--------------+--------------+
-| OHI          | Audiogram_PCA          | 0.24680431   | 0.11348276   |
-+--------------+------------------------+--------------+--------------+
-| ONH          | Glimpsing              | 0.01665064   | 0.01347164   |
-+--------------+------------------------+--------------+--------------+
-| ONH          | Vocabulary             | 0.19915969   | 0.05482451   |
-+--------------+------------------------+--------------+--------------+
-| ONH          | WorkingMemory_PCA      | 0.13108319   | 0.05883812   |
-+--------------+------------------------+--------------+--------------+
-| ONH          | Audiogram_PCA          | 0.24907301   | 0.0747741    |
-+--------------+------------------------+--------------+--------------+
+|           |                        |            |            |
+|-----------|------------------------|------------|------------|
+| **Group** | **Predictor variable** | **Mean**   | **SD**     |
+| OHI       | WorkingMemory_PCA      | 0.12457697 | 0.03502737 |
+| OHI       | Vocabulary             | 0.07989077 | 0.03688142 |
+| OHI       | Glimpsing              | 0.22593611 | 0.05201853 |
+| OHI       | Audiogram_PCA          | 0.24680431 | 0.11348276 |
+| ONH       | Glimpsing              | 0.01665064 | 0.01347164 |
+| ONH       | Vocabulary             | 0.19915969 | 0.05482451 |
+| ONH       | WorkingMemory_PCA      | 0.13108319 | 0.05883812 |
+| ONH       | Audiogram_PCA          | 0.24907301 | 0.0747741  |
 
 -   The replication's dominance analysis results closely match the main conclusions from the original study.
 
@@ -790,15 +779,21 @@ I also plotted the results from my above variable tables: I am presenting only o
 
 The generated plots for the dominance analysis also revealed the same pattern I see in the original study.
 
-![Example plot of the replicated results of the dominance analysis.](images/Replicated results of the dominance analysis_1)
+![Example plot of the replicated results of the dominance analysis.](images/Replicated%20results%20of%20the%20dominance%20analysis_1)
 
 ### [Comparison of analysis 4: Second descriptive analysis: Correlation analysis]{.underline}
 
-#### Original study : **Table 3. Correlation matrix of predictor variables with the three speech recognition outcome datasets. ( I am not going to paste the table here again because it is a complex table)**
+#### Original study : **Table 3. Correlation matrix of predictor variables with the three speech recognition outcome datasets. ( I am not going to paste the table here again because it is a complex table), I will just paste a screenshot here, this is not a figure, so it is not in the images folder.**
 
-#### Replicated results : Are in the "correlation_table_wide" variable generated. ( Here also, **( I am not going to paste the table here again because it is a complex table but I am going to write the results summary below)**
+![](images/clipboard-1403950580.png)
 
--   The results of the correlation analysis closely resemble those presented in the original study. Similar patterns of connections between predictor variables and speech recognition outcomes were seen in both the ONH and OHI groups.
+#### Replicated results : Are in the "cor_table_wide" variable generated. ( Here also, **( I am not going to paste the table here again because it is a complex table but I am going to write the results summary below), I will show a preview of my generated results as follows,**
+
+```{r}
+knitr::kable(cor_table_wide, caption = "Replication of Table 3")
+```
+
+-   The results of the correlation analysis closely resemble those presented in the original study. So the data analysis replication was successful completely. Similar patterns of connections between predictor variables and speech recognition outcomes were seen in both the ONH and OHI groups.
 
 -   Both groups' audiogram PCA values were strongly positively correlated with speech recognition thresholds; the OHI group's values were consistently higher. The main conclusion that OHI listeners rely more on auditory access mechanisms was confirmed by glimpsing, which revealed modest correlations for ONH but high negative correlations for OHI.
 
